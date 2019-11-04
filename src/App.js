@@ -1,7 +1,6 @@
-import React from 'react';
+/*import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
 
 function App() {
   return (
@@ -22,6 +21,34 @@ function App() {
       </header>
     </div>
   );
+}
+
+export default App;
+*/
+
+import './App.css';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Switch>
+           <Route
+            path="/login"
+            exact={true}
+            render={props => {
+              return (
+                <Login {...props} />
+              );
+            }}
+          />
+        </Switch>
+      </Router>
+    );
+  }
 }
 
 export default App;
