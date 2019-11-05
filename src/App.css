@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -19,4 +20,16 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.button {
+  background-color: rgb(161, 138, 226); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10%;
 }

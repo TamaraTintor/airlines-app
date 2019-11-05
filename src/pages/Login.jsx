@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, InputGroup, InputGroupAddon, Container, Input } from 'reactstrap';
-import { checkIfLogged } from '../common.js'
+//import { checkIfLogged } from '../common.js'
 
 class Login extends Component {
 
@@ -12,11 +12,11 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-        checkIfLogged().then(resp => {
+       /* checkIfLogged().then(resp => {
             if (resp) {
                 this.props.history.push('/login')
             }
-        });
+        });*/
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,7 +38,7 @@ class Login extends Component {
                 },
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/') } else { this.setState({ message: "Neispravni podaci." }) } });
+        ).then(response => { if (response.status === 200) { this.props.history.push('/') } else { this.setState({ message: response.status }) } });
     }
 
     render() {
