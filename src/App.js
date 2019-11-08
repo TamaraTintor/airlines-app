@@ -31,7 +31,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 //import Home from './pages/Home';
-import SupervizorHome from './pages/SupervizorHome';
+//import SupervizorHome from './pages/SupervizorHome';
+import AdminHome from './pages/AdminHome';
 
 
 class App extends Component {
@@ -44,7 +45,7 @@ class App extends Component {
             exact={true}
             render={props => {
               return (
-                <SupervizorHome {...props} />
+                <AdminHome {...props} />
               );
             }}
           />
