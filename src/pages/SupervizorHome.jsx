@@ -21,20 +21,20 @@ class SupervizorHome extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
         //this.pretvaranjeUString = this.pretvaranjeUString.bind(this);
-        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "", isActive: "" }
+        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
 
     }
 
     loadDataAktivni() {
         fetch('/api/user/aktivni')
             .then(response => response.json())
-            .then(data => this.setState({ users: data }));
+            .then(data => { console.log("this.state"); this.setState({ users: data })});
     }
  
     loadData() {
         fetch('/api/user')
             .then(response => response.json())
-            .then(data => this.setState({ users: data }));
+            .then(data =>{ console.log(this.state); this.setState({ users: data })});
     }
 
     componentWillMount() { 
@@ -43,7 +43,7 @@ class SupervizorHome extends Component {
 
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
-        if (checkbox.checked == true) {
+        if (checkbox.checked === true) {
             this.loadDataAktivni();
         } else {
             this.loadData();
@@ -51,7 +51,7 @@ class SupervizorHome extends Component {
     }
 
     cleanData() {
-        this.setState({ message: "", username: "", mail: "", password: "", isActive:"" });
+        this.setState({ message: "", username: "", mail: "", password: "" });
     }
 
     toggle = field => {
@@ -183,7 +183,7 @@ class SupervizorHome extends Component {
                                         <td>{user.username}</td>
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
-                                        <td>{user.active}</td>
+                                        <td>{String(user.active)}</td>
                                         </tr>
                                    
                                 

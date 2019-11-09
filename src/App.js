@@ -32,7 +32,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 //import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
+<<<<<<< HEAD
 import AdminHome from './pages/AdminHome';
+=======
+//import AdminHome from './pages/AdminHome';
+>>>>>>> cisto valjda moram komitovati prije nego sto pull uradim
 
 
 class App extends Component {
@@ -45,7 +49,7 @@ class App extends Component {
             exact={true}
             render={props => {
               return (
-                <AdminHome {...props} />
+                <SupervizorHome {...props} />
               );
             }}
           />
