@@ -3,7 +3,7 @@
 export function checkIfLogged() {
     console.log("Provjera")
     let resp = false;
-    resp = fetch('/api/login',
+    resp = fetch('/auth/isAuthenticated',
         {
             method: 'GET',
             mode: 'cors',

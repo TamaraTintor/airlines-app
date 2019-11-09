@@ -29,14 +29,11 @@ export default App;
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-//import Home from './pages/Home';
+import LoginSupervizor from './pages/LoginSupervizor';
+import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
-<<<<<<< HEAD
-import AdminHome from './pages/AdminHome';
-=======
-//import AdminHome from './pages/AdminHome';
->>>>>>> cisto valjda moram komitovati prije nego sto pull uradim
+import UserHome from './pages/UserHome';
+import LoginUser from './pages/LoginUser';
 
 
 class App extends Component {
@@ -45,11 +42,11 @@ class App extends Component {
       <Router>
         <Switch>
         <Route
-            path="/admin"
+            path="/"
             exact={true}
             render={props => {
               return (
-                <SupervizorHome {...props} />
+                <Home {...props} />
               );
             }}
           />
@@ -63,11 +60,29 @@ class App extends Component {
             }}
           />
            <Route
-            path="/"
+            path="/loginSupervizor"
             exact={true}
             render={props => {
               return (
-                <Login {...props} />
+                <LoginSupervizor {...props} />
+              );
+            }}
+          />
+           <Route
+            path="/loginUser"
+            exact={true}
+            render={props => {
+              return (
+                <LoginUser {...props} />
+              );
+            }}
+          />
+           <Route
+            path="/user"
+            exact={true}
+            render={props => {
+              return (
+                <UserHome {...props} />
               );
             }}
           />

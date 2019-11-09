@@ -3,24 +3,24 @@ import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import '../index.css';
+import { checkIfLogged } from '../common.js'
 
 class SupervizorHome extends Component {
 
     constructor(props) {
         super(props);
 
-        /*    checkIfLogged().then(resp => {
-                if (!resp) {
-                    this.props.history.push('/')
-                }
-            });*/
+        checkIfLogged().then(resp => {
+            if (!resp) {
+                this.props.history.push('/')
+            }
+        });
 
-        //  this.logOut = this.logOut.bind(this);
+        this.logOut = this.logOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
-        //this.pretvaranjeUString = this.pretvaranjeUString.bind(this);
         this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
 
     }
@@ -28,16 +28,16 @@ class SupervizorHome extends Component {
     loadDataAktivni() {
         fetch('/api/user/aktivni')
             .then(response => response.json())
-            .then(data => { console.log("this.state"); this.setState({ users: data })});
+            .then(data => { console.log("this.state"); this.setState({ users: data }) });
     }
- 
+
     loadData() {
         fetch('/api/user')
             .then(response => response.json())
-            .then(data =>{ console.log(this.state); this.setState({ users: data })});
+            .then(data => { console.log(this.state); this.setState({ users: data }) });
     }
 
-    componentWillMount() { 
+    componentWillMount() {
         this.loadData();
     }
 
@@ -60,18 +60,18 @@ class SupervizorHome extends Component {
         });
     };
 
-    /*  logOut() {
-          fetch('/auth/logout',
-              {
-                  method: 'GET',
-                  mode: 'cors',
-                  headers:
-                  {
-                      credentials: 'include'
-                  },
-              }
-          ).catch(() => this.props.history.push('/'));
-      }*/
+    logOut() {
+        fetch('/auth/logout',
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers:
+                {
+                    credentials: 'include'
+                },
+            }
+        ).catch(() => this.props.history.push('/'));
+    }
 
 
 
@@ -103,11 +103,6 @@ class SupervizorHome extends Component {
             }
         ).then(response => { if (response.status === 202) { this.loadData(); this.cleanData(); this.toggle('showModal'); toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT }); } else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) } });
     }
-
-  /*  pretvaranjeUString(boolean) {
-        //var bool=true;
-        return boolean.toString();
-    }*/
 
     render() {
         console.log("RENDER:")
@@ -159,6 +154,7 @@ class SupervizorHome extends Component {
                         <tbody>
                             <tr>
                                 <td><h1 style={{ color: "#923cb5" }}>Supervizor Page</h1></td>
+                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -184,9 +180,9 @@ class SupervizorHome extends Component {
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
                                         <td>{String(user.active)}</td>
-                                        </tr>
-                                   
-                                
+                                    </tr>
+
+
                                 })
                             }
                         </tbody>
