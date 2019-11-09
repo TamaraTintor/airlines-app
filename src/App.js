@@ -31,7 +31,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 //import Home from './pages/Home';
-//import SupervizorHome from './pages/SupervizorHome';
+import SupervizorHome from './pages/SupervizorHome';
 import AdminHome from './pages/AdminHome';
 
 
@@ -41,7 +41,7 @@ class App extends Component {
       <Router>
         <Switch>
         <Route
-            path="/"
+            path="/admin"
             exact={true}
             render={props => {
               return (
@@ -49,8 +49,17 @@ class App extends Component {
               );
             }}
           />
+            <Route
+            path="/supervizor"
+            exact={true}
+            render={props => {
+              return (
+                <SupervizorHome {...props} />
+              );
+            }}
+          />
            <Route
-            path="/login"
+            path="/"
             exact={true}
             render={props => {
               return (

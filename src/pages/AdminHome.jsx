@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react';
 import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,8 +22,8 @@ class AdminHome extends Component {
 
 
         this.state = {
-            administrators: [], showModal: false, message: "",
-            username: "", isActive: "", password: "", air_company: ""
+            administrators: [], showModal: false,message: "",
+            username: "",  password: ""//,isActive: "", air_company: ""
         }
 
 
@@ -30,7 +32,7 @@ class AdminHome extends Component {
     loadData() {
         fetch('/api/administrator')
             .then(response => response.json())
-            .then(data => this.setState({ administrators: data }));
+            .then(data =>{console.log(this.state); this.setState({ administrators: data })});
     }
 
     componentWillMount() {
@@ -40,7 +42,7 @@ class AdminHome extends Component {
     cleanData() {
         this.setState({
             message: "",
-            username: "", password: "", isActive: "", air_company: ""
+            username: "", password: ""//, isActive: "", air_company: ""
         });
     }
     toggle = field => {
@@ -58,7 +60,7 @@ class AdminHome extends Component {
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-            isActive: this.state.isActive,
+           // isActive: this.state.isActive,
 
         }
         fetch('/api/administrator',
@@ -69,7 +71,7 @@ class AdminHome extends Component {
 
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    credentials: 'include'
+                 //   credentials: 'include'
                 },
                 mode: 'cors',
                 credentials: 'include',
@@ -140,7 +142,7 @@ class AdminHome extends Component {
                             {
                                 administrators.map((admin) => {
                                     return <tr key={admin.id}><td>{admin.id}</td><td>{admin.username}</td><td>{admin.password}</td>
-                                        <td>{admin.isActive}</td> 
+                                       
                                        </tr>//onclick="show1()"
                                 })
                             }

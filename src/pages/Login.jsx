@@ -12,17 +12,17 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-       /* checkIfLogged().then(resp => {
-            if (resp) {
-                this.props.history.push('/login')
-            }
-        });*/
+        /* checkIfLogged().then(resp => {
+             if (resp) {
+                 this.props.history.push('/login')
+             }
+         });*/
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
 
-        this.state = { username: "", password: "", message: "" };
+        this.state = { username: "", password: "", role: "" };
     }
 
     handleSubmit() {
@@ -43,28 +43,42 @@ class Login extends Component {
 
     render() {
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 0%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <h1 style={{ color: "#923cb5" }}>Login page</h1>
+
+
+            <div style={{ backgroundColor: '#923cb5', backgroundImage:` linear-gradient(#7732a8, pink)`,
+             margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
+                <div class="header">Login</div>
                 <Container >
                     <div>
-                        <InputGroup size="sm">
-                            <InputGroupAddon sm={3} addonType="prepend" className=" bg-dark">
+                        <InputGroup >
+                            <InputGroupAddon  addonType="prepend" class="label">
                                 Username:
               </InputGroupAddon>
-                            <Input style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(50deg, #923cb5 0%, #000000 5%)`, color: "#923cb5" }}
-                                type="text" username="username" id="username" value={this.state.email} onChange={this.handleInputChange} onBlur={this.handleMailInputChange}>
+                            <Input class="polje"
+                                type="text" username="username" id="username" value={this.state.email} 
+                                onChange={this.handleInputChange} onBlur={this.handleMailInputChange}>
 
                             </Input>
                         </InputGroup>
-                        <InputGroup size="sm">
-                            <InputGroupAddon addonType="prepend" style={{ backgroundColor: "#923cb5" }}>
+                        <InputGroup>
+                            <InputGroupAddon addonType="prepend" style={{ backgroundColor: "pink" }}>
                                 Password:
               </InputGroupAddon>
-                            <Input className="bg-dark text-success" style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(50deg, #000000 0%, #923cb5 99%)` }}
-                                type="password" name="password" id="password" value={this.state.password} onChange={(event) => this.handleInputChange(event)} onBlur={this.handlePassInputChange}>
+                            <Input  class="polje"
+                                type="password" name="password" id="password" value={this.state.password} 
+                                onChange={(event) => this.handleInputChange(event)} onBlur={this.handlePassInputChange}>
                             </Input>
                         </InputGroup>
-                        <p style={{ color: '#923cb5' }}>{this.state.message}</p>
+                        <div class="form-group">
+                            <label class ="label">Tip korisnika:</label>
+                            <select class="form-control" id="tipKorisnika"> /*onda sa var element = document.getElementById("Mobility");
+element.value = "dobije se to sto je selektovano";*/
+                                <option>SUPERVIZOR</option>
+                                <option>ADMINISTARTOR</option>
+                                <option>KORISNIK</option>
+                            
+                            </select>
+                        </div>
                         <br></br>
                         <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
                         <Link className="btn btn-outline-danger" to="/">Cancel</Link>
