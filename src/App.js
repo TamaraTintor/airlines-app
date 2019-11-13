@@ -29,12 +29,12 @@ export default App;
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginSupervizor from './pages/LoginSupervizor';
+import Login from './pages/Login';
 import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
 import UserHome from './pages/UserHome';
 import LoginUser from './pages/LoginUser';
-
+import AdminHome from './pages/AdminHome';
 
 class App extends Component {
   render() {
@@ -49,6 +49,15 @@ class App extends Component {
                 <Home {...props} />
               );
             }}
+            />
+            <Route
+            path="/admin"
+            exact={true}
+            render={props => {
+              return (
+                <AdminHome {...props} />
+              );
+            }}
           />
             <Route
             path="/supervizor"
@@ -60,11 +69,11 @@ class App extends Component {
             }}
           />
            <Route
-            path="/loginSupervizor"
+            path="/login"
             exact={true}
             render={props => {
               return (
-                <LoginSupervizor {...props} />
+                <Login {...props} />
               );
             }}
           />

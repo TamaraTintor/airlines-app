@@ -22,6 +22,14 @@ th {
   vertical-align: middle;
   font-size: 50px;
 }
+.naziv{
+  text-align: center;
+  vertical-align: middle;
+  font-size: 50px;
+  padding-top: 10px;
+  border-color:  #af9fe3;
+
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -53,4 +61,7 @@ code {
   max-width: 40%;
   text-align: left;
   padding-left: 5px;
+}
+.slika{
+  height: "300px";
 }

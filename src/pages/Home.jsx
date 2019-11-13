@@ -12,16 +12,16 @@ class Home extends Component {
 
         this.logOut = this.logOut.bind(this);
 
-/*
-        this.state = { authenticated: false };
-        checkIfLogged().then(resp => {
-            if (resp) {
-                this.setState({ authenticated: true });
-            }
-            else {
-                this.setState({ authenticated: false });
-            }
-        });*/
+        /*
+                this.state = { authenticated: false };
+                checkIfLogged().then(resp => {
+                    if (resp) {
+                        this.setState({ authenticated: true });
+                    }
+                    else {
+                        this.setState({ authenticated: false });
+                    }
+                });*/
     }
 
     logOut(event) {
@@ -40,31 +40,33 @@ class Home extends Component {
 
 
     render() {
-      /*  if (this.state.authenticated) {
-            return (
-                <div style={{
-                    backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`,
-                    margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
-                }}>
-                    <h1 style={{ color: "#923cb5" }}>HomePage</h1>
-                    <p style={{ color: "#923cb5" }}>There are so many great things on this page, but first... please log in:</p>
-                    <ul>
-                        <li><Link style={{ backgroundColor: "#923cb5" }} to="/supervizor" className="m-2 btn btn-primary">Supervizor Page</Link></li>
-                    </ul>
-                    <Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button>
+        /*  if (this.state.authenticated) {
+              return (
+                  <div style={{
+                      backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`,
+                      margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+                  }}>
+                      <h1 style={{ color: "#923cb5" }}>HomePage</h1>
+                      <p style={{ color: "#923cb5" }}>There are so many great things on this page, but first... please log in:</p>
+                      <ul>
+                          <li><Link style={{ backgroundColor: "#923cb5" }} to="/supervizor" className="m-2 btn btn-primary">Supervizor Page</Link></li>
+                      </ul>
+                      <Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button>
+                  </div>
+              );
+          }
+          else {*/
+        return (
+            <div style={{ backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
+                <h1 class="naziv">Lanaco Airlines</h1>
+                <h2 class="header">Dobro došli!</h2>
+                <div style={{ height: "110px" }}><img src={`./avion1`} width="100" height="80" />
                 </div>
-            );
-        }
-        else {*/
-            return (
-                <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                    <h1 style={{ color: "#923cb5" }}>HomePage</h1>
-                   
-                    <Link style={{ backgroundColor: "#923cb5" }} to="/loginSupervizor" className="m-2 btn btn-primary">Login supervizor</Link>
-                    <Link style={{ backgroundColor: "#923cb5" }} to="/loginUser" className="m-2 btn btn-primary">Login user</Link>
-                </div>
-            );
-  //     }
+                <Link  to="/login" class="buttonLogin">Login </Link>
+                    
+                </div >
+                );
+        //     }
 
     };
 

@@ -13,6 +13,7 @@ class UserHome extends Component {
                 if (!resp) {
                     this.props.history.push('/user')
                 }
+                
             });
 
         this.logOut = this.logOut.bind(this);

@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import '../index.css';
 import { checkIfLogged } from '../common.js'
+import { Link } from 'react-router-dom';
 
 class SupervizorHome extends Component {
 
@@ -21,6 +22,7 @@ class SupervizorHome extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
+        this.selectObject=this.selectObject.bind(this);
         this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
 
     }
@@ -101,8 +103,19 @@ class SupervizorHome extends Component {
                 credentials: 'include',
                 body: JSON.stringify(dataToSend),
             }
-        ).then(response => { if (response.status === 202) { this.loadData(); this.cleanData(); this.toggle('showModal'); toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT }); } else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) } });
+        ).then(response => { if (response.status === 202) { this.loadData(); this.cleanData(); this.toggle('showModal');
+         toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT }); } 
+         else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) } });
     }
+    
+   
+    selectObject()//da suspenduje objekat
+        {
+    
+           
+        }
+        
+     
 
     render() {
         console.log("RENDER:")
@@ -145,6 +158,7 @@ class SupervizorHome extends Component {
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj korisnika</Button>
+                            
                             </div>
                         </ModalBody>
                     </Modal>
@@ -167,16 +181,18 @@ class SupervizorHome extends Component {
                         </tr>
                     </Table>
 
-                    <Table >
+                    <Table id="tabela">
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th></tr>
                         </thead>
                         <tbody>
                             {
                                 users.map((user) => {
-                                    return <tr key={user.id}>
+                                  
+                                    return <tr key={user.id} id="red" onClick={this.selectObject()}> 
+                                        <td> <input class="form-check-input" type="checkbox" id="inlineCheckbox" onChange={(event) => this.selectObject(event)}></input></td>
                                         <td>{user.id}</td>
-                                        <td>{user.username}</td>
+                                        <td class="username">{user.username}</td>
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
                                         <td>{String(user.active)}</td>

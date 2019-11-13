@@ -23,7 +23,7 @@ class AdminHome extends Component {
 
         this.state = {
             administrators: [], showModal: false,message: "",
-            username: "",  password: ""//,isActive: "", air_company: ""
+            username: "",  password: "",active: "", air_company: ""
         }
 
 
