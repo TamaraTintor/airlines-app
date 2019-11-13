@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CheckBox } from 'react';
 import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,7 +22,7 @@ class SupervizorHome extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
-        this.selectObject=this.selectObject.bind(this);
+        this.selectObject = this.selectObject.bind(this);
         this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
 
     }
@@ -103,19 +103,23 @@ class SupervizorHome extends Component {
                 credentials: 'include',
                 body: JSON.stringify(dataToSend),
             }
-        ).then(response => { if (response.status === 202) { this.loadData(); this.cleanData(); this.toggle('showModal');
-         toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT }); } 
-         else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) } });
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData(); this.cleanData(); this.toggle('showModal');
+                toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) }
+        });
     }
-    
-   
-    selectObject()//da suspenduje objekat
-        {
-    
-           
-        }
-        
-     
+
+
+    selectObject(String)//da suspenduje objekat
+    {
+
+
+    }
+
+
 
     render() {
         console.log("RENDER:")
@@ -158,7 +162,7 @@ class SupervizorHome extends Component {
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj korisnika</Button>
-                            
+
                             </div>
                         </ModalBody>
                     </Modal>
@@ -183,19 +187,41 @@ class SupervizorHome extends Component {
 
                     <Table id="tabela">
                         <thead>
-                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th></tr>
+                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th><th>Suspenduj</th><td>Novo</td></tr>
                         </thead>
                         <tbody>
                             {
                                 users.map((user) => {
-                                  
-                                    return <tr key={user.id} id="red" onClick={this.selectObject()}> 
-                                        <td> <input class="form-check-input" type="checkbox" id="inlineCheckbox" onChange={(event) => this.selectObject(event)}></input></td>
+
+                                    return <tr key={user.id} id="red" onClick={this.selectObject()}>
                                         <td>{user.id}</td>
                                         <td class="username">{user.username}</td>
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
                                         <td>{String(user.active)}</td>
+                                         <td><Button onCLick={() =>
+                                           
+                                         fetch('/api/user/{user}',
+                                                {
+                                                    method: 'DELETE',
+                                                    headers:
+                                                    {
+
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    mode: 'cors',
+                                                    credentials: 'include',
+                                                }
+                                            ).then(response => {
+                                                if (response.status === 202) {
+                                                    this.loadData();
+                                                }
+                                                else { this.setState({ message: "Grska prilikom suspendovanja korisnika" }) }
+                                            })
+                                                }
+                                            >Suspenduj</Button></td>
+                                        <td align="center"> <input class="form-check-input" type="checkbox" id="user.username" onChange={(event) => this.selectObject(event)}></input></td>
                                     </tr>
 
 

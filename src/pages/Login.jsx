@@ -21,7 +21,6 @@ class Login extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-
         this.state = { username: "", password: "", message: "" };
     }
     loadSupervisorPage() {
