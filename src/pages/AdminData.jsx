@@ -5,45 +5,47 @@ import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
-class AdminHome extends Component {
+class AdminData extends Component {
 
     constructor(props) {
         super(props);
 
-        /*   checkIfLogged().then(resp => {
-               if (!resp) {
-                   this.props.history.push('/')
-               }
-           });
-   */
-        // this.logOut = this.logOut.bind(this);
+        checkIfLogged().then(resp => {
+            if (!resp) {
+                this.props.history.push('/')
+            }
+        });
+
+        this.logOut = this.logOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.loadDataAktivni = this.loadDataAktivni.bind(this);
+        this.state = { administrators: [], showModal: false, message: "", username: "", active: "", password: "", airCompany: [] }
 
 
-        this.state = {
-            administrators: [], showModal: false,message: "",
-            username: "",  password: "",active: "", air_company: ""
-        }
 
-
+    }
+    loadDataAktivni() {
+        fetch('/api/administrator/aktivni')
+            .then(response => response.json())
+            .then(data => { console.log(this.state); this.setState({ administrators: data }) });
     }
 
     loadData() {
         fetch('/api/administrator')
             .then(response => response.json())
-            .then(data =>{console.log(this.state); this.setState({ administrators: data })});
+            .then(data => { console.log(this.state); this.setState({ administrators: data }) });
     }
+
 
     componentWillMount() {
         this.loadData();
     }
 
     cleanData() {
-        this.setState({
-            message: "",
-            username: "", password: ""//, isActive: "", air_company: ""
-        });
+
+        this.setState({ message: "", username: "", active: "", password: "" });
+
     }
     toggle = field => {
         this.setState(prev => {
@@ -60,7 +62,7 @@ class AdminHome extends Component {
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-           // isActive: this.state.isActive,
+
 
         }
         fetch('/api/administrator',
@@ -71,7 +73,7 @@ class AdminHome extends Component {
 
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                 //   credentials: 'include'
+                    //   credentials: 'include'
                 },
                 mode: 'cors',
                 credentials: 'include',
@@ -80,9 +82,27 @@ class AdminHome extends Component {
         ).then(response => { if (response.status === 200) { this.props.history.push('/') } else { this.setState({ message: "Invalid credentials" }) } });
     }
 
+    handleCheckBox(event) {
+        var checkbox = document.getElementById("checkbox_aktivni");
+        if (checkbox.checked === true) {
+            this.loadDataAktivni();
+        } else {
+            this.loadData();
+        }
+    }
 
-
-
+    logOut() {
+        fetch('/auth/logout',
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers:
+                {
+                    credentials: 'include'
+                },
+            }
+        ).catch(() => this.props.history.push('/'));
+    }
     render() {
         console.log("RENDER:")
         console.log(this.state);
@@ -116,24 +136,52 @@ class AdminHome extends Component {
                                         type="text" name="password" id="password" value={this.state.password} onChange={(event) => this.handleInputChange(event)}
                                     ></Input>
                                 </InputGroup>
+                                
+
+
+                                <div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Choose air company
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+
+  {
+                                            administrators.map((admin) => {
+                                                return <div class="input-group mb-3"><select className="form-control"  onChange={(event) => this.handleInputChange(event)}><option >{String(admin.airCompany.name)}</option> </select>
+                                       <button class="dropdown-item" type="button">{String(admin.airCompany.name)}</button></div>
+                                            })
+                                        }
+ 
+</div>
+</div>
+
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
+
                 </Container>
                 <Container>
                     <Table>
                         <tbody>
                             <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Admin Page</h1></td>
+                                <td><h1 style={{ color: "#923cb5" }}>Admin data</h1></td>
+
+                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
                 </Container>
                 <Container>
-                    <Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog administratora</Button>
+                    <Table borderless="0">
+                        <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog adminstratora</Button></td>
+
+                            <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
+                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
+                        </tr>
+                    </Table>
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>Password</th><th>IsActive</th><th>Air Company</th></tr>
@@ -142,8 +190,8 @@ class AdminHome extends Component {
                             {
                                 administrators.map((admin) => {
                                     return <tr key={admin.id}><td>{admin.id}</td><td>{admin.username}</td><td>{admin.password}</td>
-                                       
-                                       </tr>//onclick="show1()"
+                                        <td>{String(admin.active)}</td><td>{String(admin.airCompany.name)}</td>
+                                    </tr>//onclick="show1()"
                                 })
                             }
                         </tbody>
@@ -156,4 +204,4 @@ class AdminHome extends Component {
 
 }
 
-export default AdminHome
+export default AdminData

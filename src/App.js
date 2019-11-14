@@ -33,8 +33,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
 import UserHome from './pages/UserHome';
-import LoginUser from './pages/LoginUser';
-import AdminHome from './pages/AdminHome';
+import AdminData from './pages/AdminData';
 
 class App extends Component {
   render() {
@@ -55,7 +54,7 @@ class App extends Component {
             exact={true}
             render={props => {
               return (
-                <AdminHome {...props} />
+                <AdminData {...props} />
               );
             }}
           />
@@ -77,15 +76,7 @@ class App extends Component {
               );
             }}
           />
-           <Route
-            path="/loginUser"
-            exact={true}
-            render={props => {
-              return (
-                <LoginUser {...props} />
-              );
-            }}
-          />
+          
            <Route
             path="/user"
             exact={true}

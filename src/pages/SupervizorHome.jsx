@@ -24,7 +24,7 @@ class SupervizorHome extends Component {
         this.handleCheckBox = this.handleCheckBox.bind(this);
         this.selectObject = this.selectObject.bind(this);
         this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
-
+        this.adminPage = this.adminPage.bind();
     }
 
     loadDataAktivni() {
@@ -75,7 +75,12 @@ class SupervizorHome extends Component {
         ).catch(() => this.props.history.push('/'));
     }
 
+    adminPage() {
+        //    (() => this.props.history.push('/'));
+        window.close("/supervizor");
+        window.open("/admin");
 
+    }
 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -128,13 +133,16 @@ class SupervizorHome extends Component {
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <ToastContainer autoClose={3000} />
+
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
                         toggle={() => this.toggle('showModal')}
                         className="bg-transparent modal-xl">
+
                         <ModalBody>
                             <div>
+
                                 <InputGroup size="sm">
                                     <InputGroupAddon sm={3} addonType="prepend">
                                         Username:
@@ -180,6 +188,8 @@ class SupervizorHome extends Component {
                 <Container>
                     <Table borderless="0">
                         <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button></td>
+                            {/* <td><Link class="buttonRadSaAdministartorom"  to="/admin" >Rad sa administartorom </Link></td>  */}
+                            <td><Button class="buttonRadSaAdministartorom" onClick={() => this.adminPage()} >Rad sa administartorom </Button></td>
                             <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
@@ -199,9 +209,9 @@ class SupervizorHome extends Component {
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
                                         <td>{String(user.active)}</td>
-                                         <td><Button onCLick={() =>
-                                           
-                                         fetch('/api/user/{user}',
+                                        <td><Button onCLick={() =>
+
+                                            fetch('/api/user/{user.username}',
                                                 {
                                                     method: 'DELETE',
                                                     headers:
@@ -219,8 +229,8 @@ class SupervizorHome extends Component {
                                                 }
                                                 else { this.setState({ message: "Grska prilikom suspendovanja korisnika" }) }
                                             })
-                                                }
-                                            >Suspenduj</Button></td>
+                                        }
+                                        >Suspenduj</Button></td>
                                         <td align="center"> <input class="form-check-input" type="checkbox" id="user.username" onChange={(event) => this.selectObject(event)}></input></td>
                                     </tr>
 
@@ -230,6 +240,10 @@ class SupervizorHome extends Component {
                         </tbody>
                     </Table>
                 </Container>
+
+
+
+
             </div>
         );
     };
