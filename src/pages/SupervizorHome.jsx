@@ -1,10 +1,10 @@
-import React, { Component, CheckBox } from 'react';
+import React, { Component } from 'react';
 import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import '../index.css';
 import { checkIfLogged } from '../common.js'
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 class SupervizorHome extends Component {
 
@@ -44,6 +44,7 @@ class SupervizorHome extends Component {
     }
 
     handleCheckBox(event) {
+        console.log("U CHECK BOX SAM")
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
             this.loadDataAktivni();
@@ -93,16 +94,13 @@ class SupervizorHome extends Component {
             password: this.state.password,
             mail: this.state.mail
         }
-
         fetch('/api/user',
             {
                 method: 'POST',
                 headers:
                 {
-
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    // credentials: 'include'
                 },
                 mode: 'cors',
                 credentials: 'include',
@@ -118,17 +116,36 @@ class SupervizorHome extends Component {
     }
 
 
-    selectObject(String)//da suspenduje objekat
+    selectObject(event)//da suspenduje objekat
     {
-
-
+        var putanja = '/api/user/' + event.target.value;
+        fetch(putanja,
+            {
+                method: 'DELETE',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData();
+                toast.success("Korisnik suspendovan", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else {
+                toast.error("Korisnik nije suspendovan", { position: toast.POSITION_TOP_RIGHT });
+            }
+        });
     }
 
 
 
     render() {
-        console.log("RENDER:")
-        console.log(this.state);
+        //  console.log("RENDER:")
+        //console.log(this.state);
         let users = [...this.state.users];
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
@@ -139,17 +156,14 @@ class SupervizorHome extends Component {
                         isOpen={this.state.showModal}
                         toggle={() => this.toggle('showModal')}
                         className="bg-transparent modal-xl">
-
                         <ModalBody>
                             <div>
-
                                 <InputGroup size="sm">
                                     <InputGroupAddon sm={3} addonType="prepend">
                                         Username:
                                     </InputGroupAddon>
                                     <Input
-                                        type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange} placeholder="username"
-                                    ></Input>
+                                        type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}                                     ></Input>
                                 </InputGroup>
                                 <InputGroup size="sm">
                                     <InputGroupAddon addonType="prepend">
@@ -170,84 +184,59 @@ class SupervizorHome extends Component {
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj korisnika</Button>
-
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
                 <Container>
-                    <Table>
+                    <Table borderless="true">
                         <tbody>
                             <tr>
                                 <td><h1 style={{ color: "#923cb5" }}>Supervizor Page</h1></td>
-                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
+                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
                 </Container>
                 <Container>
-                    <Table borderless="0">
-                        <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button></td>
-                            {/* <td><Link class="buttonRadSaAdministartorom"  to="/admin" >Rad sa administartorom </Link></td>  */}
-                            <td><Button class="buttonRadSaAdministartorom" onClick={() => this.adminPage()} >Rad sa administartorom </Button></td>
-                            <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
-                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                        </tr>
+                    <Table borderless="true">
+                        <thead>
+                            <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button></td>
+                                {/* <td><Link class="buttonRadSaAdministartorom"  to="/admin" >Rad sa administartorom </Link></td>  */}
+                                <td><Button class="buttonRadSaAdministartorom" onClick={() => this.adminPage()} >Rad sa administartorom </Button></td>
+                                <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
+                                <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
+                            </tr>
+                        </thead>
                     </Table>
-
                     <Table id="tabela">
                         <thead>
-                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th><th>Suspenduj</th><td>Novo</td></tr>
+                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th><th>Suspenduj</th></tr>
                         </thead>
                         <tbody>
                             {
                                 users.map((user) => {
-
-                                    return <tr key={user.id} id="red" onClick={this.selectObject()}>
+                                    return <tr key={user.id} /*id="red" onClick={this.selectObject()}*/>
                                         <td>{user.id}</td>
-                                        <td class="username">{user.username}</td>
+                                        <td className="username">{user.username}</td>
                                         <td>{user.mail}</td>
                                         <td>{user.password}</td>
                                         <td>{String(user.active)}</td>
-                                        <td><Button onCLick={() =>
-
-                                            fetch('/api/user/{user.username}',
-                                                {
-                                                    method: 'DELETE',
-                                                    headers:
-                                                    {
-
-                                                        'Accept': 'application/json',
-                                                        'Content-Type': 'application/json',
-                                                    },
-                                                    mode: 'cors',
-                                                    credentials: 'include',
-                                                }
-                                            ).then(response => {
-                                                if (response.status === 202) {
-                                                    this.loadData();
-                                                }
-                                                else { this.setState({ message: "Grska prilikom suspendovanja korisnika" }) }
-                                            })
-                                        }
-                                        >Suspenduj</Button></td>
-                                        <td align="center"> <input class="form-check-input" type="checkbox" id="user.username" onChange={(event) => this.selectObject(event)}></input></td>
+                                        <td> {(() => {
+                                            switch (String(user.active)){
+                                                case "true" :  return <Button onClick={(event) => this.selectObject(event)} value={user.username}>Suspenduj</Button>;
+                                                case "false":  return <Button disabled>Suspenduj</Button>;
+                                             }})()}
+                                        </td>
                                     </tr>
-
-
                                 })
                             }
                         </tbody>
                     </Table>
                 </Container>
-
-
-
-
             </div>
         );
     };
-
 }
 
 export default SupervizorHome

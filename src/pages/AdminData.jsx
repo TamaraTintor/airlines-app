@@ -62,8 +62,6 @@ class AdminData extends Component {
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-
-
         }
         fetch('/api/administrator',
             {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
+import { Button/*, Modal, ModalBody, InputGroup, InputGroupAddon*/, Container, Table/*, Input*/ } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import '../index.css';
 import { checkIfLogged } from '../common.js'
