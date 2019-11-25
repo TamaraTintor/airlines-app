@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 //import { Button } from 'reactstrap';
 import '../App.css';
 import '../index.css';
+import Slika from '../avon1.jpg';
 
 class Home extends Component {
 
@@ -60,7 +61,7 @@ class Home extends Component {
             <div style={{ backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <h1 class="naziv">Lanaco Airlines</h1>
                 <h2 class="header">Dobro došli!</h2>
-                <div style={{ height: "110px" }}><img src={`./avion1`} width="100" height="80" alt="Slika se nije ucitala." />
+                <div style={{ height: "110px" }}><img src={Slika} width="100" height="80" alt="Slika se nije ucitala." />
                 </div>
                 <Link  to="/login" class="buttonLogin">Login </Link>
                     

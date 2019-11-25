@@ -23,14 +23,14 @@ class SupervizorHome extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
         this.selectObject = this.selectObject.bind(this);
-        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
+        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: ""}
         this.adminPage = this.adminPage.bind();
-    }
+   }
 
     loadDataAktivni() {
         fetch('/api/user/aktivni')
             .then(response => response.json())
-            .then(data => { console.log("this.state"); this.setState({ users: data }) });
+            .then(data => { console.log(this.state); this.setState({ users: data }) });
     }
 
     loadData() {
@@ -44,7 +44,6 @@ class SupervizorHome extends Component {
     }
 
     handleCheckBox(event) {
-        console.log("U CHECK BOX SAM")
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
             this.loadDataAktivni();
@@ -111,7 +110,7 @@ class SupervizorHome extends Component {
                 this.loadData(); this.cleanData(); this.toggle('showModal');
                 toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
-            else { this.setState({ message: "Grska prilikom dodavanja korisnika" }) }
+            else { this.setState({ message: "Greska prilikom dodavanja korisnika" }) }
         });
     }
 
@@ -144,13 +143,10 @@ class SupervizorHome extends Component {
 
 
     render() {
-        //  console.log("RENDER:")
-        //console.log(this.state);
         let users = [...this.state.users];
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <ToastContainer autoClose={3000} />
-
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -229,7 +225,7 @@ class SupervizorHome extends Component {
                                              }})()}
                                         </td>
                                     </tr>
-                                })
+                                })                              
                             }
                         </tbody>
                     </Table>

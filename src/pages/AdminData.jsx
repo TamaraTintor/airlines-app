@@ -5,6 +5,8 @@ import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
+import ComboAviokompanije from '../combobox/ComboAvikomanije';
+
 class AdminData extends Component {
 
     constructor(props) {
@@ -18,13 +20,12 @@ class AdminData extends Component {
 
         this.logOut = this.logOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmitAvio = this.handleSubmitAvio.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
-        this.state = { administrators: [], showModal: false, message: "", username: "", active: "", password: "", airCompany: [] }
-
-
-
+        this.state = { administrators: [], showModal: false, message: "", username: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "" }
     }
+
     loadDataAktivni() {
         fetch('/api/administrator/aktivni')
             .then(response => response.json())
@@ -37,22 +38,19 @@ class AdminData extends Component {
             .then(data => { console.log(this.state); this.setState({ administrators: data }) });
     }
 
-
     componentWillMount() {
         this.loadData();
     }
 
     cleanData() {
-
-        this.setState({ message: "", username: "", active: "", password: "" });
-
+        this.setState({ message: "", username: "", password: "", name: "" });
     }
+
     toggle = field => {
         this.setState(prev => {
             return { [field]: !prev[field] };
         });
     };
-
 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -62,22 +60,54 @@ class AdminData extends Component {
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
+            airCompany: {
+                name: this.state.selectedValue
+            }
         }
         fetch('/api/administrator',
             {
                 method: 'POST',
                 headers:
                 {
-
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    //   credentials: 'include'
                 },
                 mode: 'cors',
                 credentials: 'include',
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/') } else { this.setState({ message: "Invalid credentials" }) } });
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData(); this.cleanData(); this.toggle('showModal');
+                toast.success("Administrator sacuvan", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else { this.setState({ message: response.status + " Greska prilikom dodavanja administratora" }) }
+        });
+    }
+
+    handleSubmitAvio() {
+        let dataToSend = {
+            name: this.state.name,
+        }
+        fetch('/api/airCompany',
+            {
+                method: 'POST',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify(this.state),
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData(); this.cleanData(); this.toggle('showModal1');
+                toast.success("Aviokompanija sacuvana", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else { this.setState({ message: "Greska prilikom dodavanja aviokompanije" }) }
+        });
     }
 
     handleCheckBox(event) {
@@ -87,6 +117,12 @@ class AdminData extends Component {
         } else {
             this.loadData();
         }
+    }
+
+    handleSelectChange = (selectedValue) => {
+        this.setState({
+            selectedValue: selectedValue
+        });
     }
 
     logOut() {
@@ -101,20 +137,19 @@ class AdminData extends Component {
             }
         ).catch(() => this.props.history.push('/'));
     }
+
     render() {
         console.log("RENDER:")
         console.log(this.state);
         let administrators = [...this.state.administrators];
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={5000} />
+                <ToastContainer autoClose={4000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
                         toggle={() => this.toggle('showModal')}
-                        className="bg-transparent modal-xl"
-
-                    >
+                        className="bg-transparent modal-xl">
                         <ModalBody>
                             <div>
                                 <InputGroup size="sm">
@@ -125,8 +160,8 @@ class AdminData extends Component {
                                         type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}
                                     ></Input>
                                 </InputGroup>
+                                <br></br>
                                 <InputGroup size="sm">
-
                                     <InputGroupAddon addonType="prepend">
                                         Password:
                                  </InputGroupAddon>
@@ -134,34 +169,43 @@ class AdminData extends Component {
                                         type="text" name="password" id="password" value={this.state.password} onChange={(event) => this.handleInputChange(event)}
                                     ></Input>
                                 </InputGroup>
-                                
-
-
-                                <div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Choose air company
-  </button>
-  <div class="dropdown-menu dropdown-menu-right">
-
-  {
-                                            administrators.map((admin) => {
-                                                return <div class="input-group mb-3"><select className="form-control"  onChange={(event) => this.handleInputChange(event)}><option >{String(admin.airCompany.name)}</option> </select>
-                                       <button class="dropdown-item" type="button">{String(admin.airCompany.name)}</button></div>
-                                            })
-                                        }
- 
-</div>
-</div>
-
+                                <br></br>
+                                <ComboAviokompanije name="airCompany" id="airCompany" value={this.state.airCompany} onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
+                                <div>
+                                    Selected value: {this.state.selectedValue}
+                                </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
+                </Container>
 
+                <Container>
+                    <Modal
+                        isOpen={this.state.showModal1}
+                        toggle={() => this.toggle('showModal1')}
+                        className="bg-transparent modal-xl">
+                        <ModalBody>
+                            <div>
+                                <InputGroup size="sm">
+                                    <InputGroupAddon sm={3} addonType="prepend">
+                                        Name:
+                                </InputGroupAddon>
+                                    <Input
+                                        type="text" name="name" id="name" value={this.state.name} onChange={this.handleInputChange}
+                                    ></Input>
+                                </InputGroup>
+                                <p style={{ color: '#923cb5' }}>{this.state.message1}</p>
+                                <br></br>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmitAvio}>Dodaj aviokompaniju</Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
                 </Container>
                 <Container>
+
                     <Table>
                         <tbody>
                             <tr>
@@ -174,8 +218,9 @@ class AdminData extends Component {
                 </Container>
                 <Container>
                     <Table borderless="0">
-                        <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog adminstratora</Button></td>
-
+                        <tr>
+                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog adminstratora</Button></td>
+                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Dodaj novu aviokompaniju</Button></td>
                             <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
