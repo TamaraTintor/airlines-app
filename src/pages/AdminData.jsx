@@ -43,7 +43,7 @@ class AdminData extends Component {
     }
 
     cleanData() {
-        this.setState({ message: "", username: "", password: "", name: "" });
+        this.setState({ message: "", username: "", password: "", name: "",selectedValue:"", airCompany:"" });
     }
 
     toggle = field => {
@@ -57,12 +57,13 @@ class AdminData extends Component {
     }
 
     handleSubmit() {
+       
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-            airCompany: {
-                name: this.state.selectedValue
-            }
+            airCompany: fetch('/api/airCompany/'+this.state.selectedValue)
+            .then(response => response.json())
+            .then(data => { this.setState({ airCompany: data }) })
         }
         fetch('/api/administrator',
             {
