@@ -26,7 +26,8 @@ class AdminData extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.loadJednu = this.loadJednu.bind(this);
-        this.state = { administrators: [], showModal: false, message: "", username: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "" }
+        this.handleIzmjena = this.handleIzmjena.bind(this);
+        this.state = { administrators: [], showModal: false, message: "", username: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "", showModalIzmjena: false }
     }
 
     loadDataAktivni() {
@@ -73,7 +74,6 @@ class AdminData extends Component {
             password: this.state.password,
             airCompany: this.state.airCompany
         }
-        // const [data1, data2] = Promise.all(fetch);
         fetch('/api/administrator',
             {
 
@@ -133,7 +133,6 @@ class AdminData extends Component {
     }
 
     handleSelectChange = (selectedValue) => {
-
         this.setState({
             selectedValue: selectedValue
         });
@@ -154,6 +153,71 @@ class AdminData extends Component {
             }
         ).catch(() => this.props.history.push('/'));
     }
+
+    selectObject(event)//da suspenduje objekat
+    {
+        var putanja = '/api/administrator/' + event.target.value;
+        fetch(putanja,
+            {
+                method: 'DELETE',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData();
+                toast.success("Administrator suspendovan", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else {
+                toast.error("Administrator nije suspendovan", { position: toast.POSITION_TOP_RIGHT });
+            }
+        });
+    }
+
+    handleIzmjena(event)
+    {
+       let dataToSend = {
+            username: this.state.username,
+            password: this.state.password,
+            airCompany: this.state.airCompany
+        }
+        fetch('api/administrator',
+            {
+                method: 'PUT',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify(this.state),
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData();
+                toast.success("Administrator izmjenjen", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else {
+                toast.error("Administrator nije izmjenjen", { position: toast.POSITION_TOP_RIGHT });
+            }
+        });
+    }
+
+    openModalWithItem(item) {
+        this.setState({
+           showModalIzmjena: true,
+           username: item.username,
+           password: item.password,
+           airCompany: item.airCompany.name
+        })
+     }
+
 
     render() {
         console.log("RENDER:")
@@ -193,7 +257,7 @@ class AdminData extends Component {
                                 </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -221,6 +285,44 @@ class AdminData extends Component {
                         </ModalBody>
                     </Modal>
                 </Container>
+
+                <Container>
+                    <Modal
+                        isOpen={this.state.showModalIzmjena}
+                        toggle={() => this.toggle('showModalIzmjena')}
+                        className="bg-transparent modal-xl">
+                        <ModalBody>
+                            <div>
+                                <InputGroup size="sm">
+                                    <InputGroupAddon sm={3} addonType="prepend">
+                                        Username:
+                                </InputGroupAddon>
+                                    <Input
+                                        type="text" name="username" id="usernameIzmjena" value={this.state.username} onChange={this.handleInputChange}
+                                    ></Input>
+                                </InputGroup>
+                                <br></br>
+                                <InputGroup size="sm">
+                                    <InputGroupAddon addonType="prepend">
+                                        Password:
+                                 </InputGroupAddon>
+                                    <Input
+                                        type="text" name="password" id="passwordIzmjena" value={this.state.password} onChange={(event) => this.handleInputChange(event)}
+                                    ></Input>
+                                </InputGroup>
+                                <br></br>
+                                <ComboAviokompanije name="airCompany" id="airCompanyIzmjena" value={this.state.airCompany} selectedValue={this.state.airCompany.name} onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
+                                <div>
+                                    Selected value: {this.state.selectedValue}
+                                </div>
+                                <p style={{ color: '#923cb5' }}>{this.state.message}</p>
+                                <br></br>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
+                </Container>
+
                 <Container>
 
                     <Table>
@@ -244,14 +346,26 @@ class AdminData extends Component {
                     </Table>
                     <Table >
                         <thead>
-                            <tr><th>ID</th><th>Username</th><th>Password</th><th>IsActive</th><th>Air Company</th></tr>
+                            <tr><th>ID</th><th>Username</th><th>Password</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
                                 administrators.map((admin) => {
-                                    return <tr key={admin.id}><td>{admin.id}</td><td>{admin.username}</td><td>{admin.password}</td>
-                                        <td>{String(admin.active)}</td><td>{String(admin.airCompany.name)}</td>
-                                    </tr>//onclick="show1()"
+                                    return <tr key={admin.id}>
+                                        <td>{admin.id}</td>
+                                        <td>{admin.username}</td>
+                                        <td>{admin.password}</td>
+                                        <td>{String(admin.active)}</td>
+                                        <td>{String(admin.airCompany.name)}</td>
+                                        <td> {(() => {
+                                            switch (String(admin.active)) {
+                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={admin.username}>Suspenduj</Button>;
+                                                case "false": return <Button disabled>Suspenduj</Button>;
+                                            }
+                                        })()}
+                                        </td>
+                                        <td><Button onClick={() => this.openModalWithItem(admin)}>Ismjeni</Button></td>
+                                    </tr>
                                 })
                             }
                         </tbody>
