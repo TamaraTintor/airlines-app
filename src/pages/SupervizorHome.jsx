@@ -32,12 +32,12 @@ class SupervizorHome extends Component {
 
     adminPage() {
         window.close("/supervizor");
-        window.open("/adminData");
+        window.open("/adminData","_self");
        
     }
     userPage() {
         window.close("/supervizor");
-        window.open("/userData");
+        window.open("/userData","_self");
     }
 
 

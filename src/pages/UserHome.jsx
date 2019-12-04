@@ -15,7 +15,7 @@ class UserHome extends Component {
                 }
                 
             });
-
+          
         this.logOut = this.logOut.bind(this);
     }
 

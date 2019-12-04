@@ -178,7 +178,7 @@ class UserData extends Component {
                     <Table borderless="true">
                         <tbody>
                             <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Supervizor Page</h1></td>
+                                <td><h1 style={{ color: "#923cb5" }}>User Data</h1></td>
                                 <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
