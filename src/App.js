@@ -34,6 +34,7 @@ import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
 import UserHome from './pages/UserHome';
 import AdminData from './pages/AdminData';
+import UserData from './pages/UserData';
 
 class App extends Component {
   render() {
@@ -50,7 +51,7 @@ class App extends Component {
             }}
             />
             <Route
-            path="/admin"
+            path="/adminData"
             exact={true}
             render={props => {
               return (
@@ -76,13 +77,12 @@ class App extends Component {
               );
             }}
           />
-          
-           <Route
-            path="/user"
+          <Route
+            path="/userData"
             exact={true}
             render={props => {
               return (
-                <UserHome {...props} />
+                <UserData {...props} />
               );
             }}
           />

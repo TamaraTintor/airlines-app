@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
 import ComboAviokompanije from '../combobox/ComboAvikomanije';
 
+//import Async from 'react-select/lib/Async';
+
 class AdminData extends Component {
 
     constructor(props) {
@@ -23,6 +25,7 @@ class AdminData extends Component {
         this.handleSubmitAvio = this.handleSubmitAvio.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
+        this.loadJednu = this.loadJednu.bind(this);
         this.state = { administrators: [], showModal: false, message: "", username: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "" }
     }
 
@@ -43,7 +46,7 @@ class AdminData extends Component {
     }
 
     cleanData() {
-        this.setState({ message: "", username: "", password: "", name: "",selectedValue:"", airCompany:"" });
+        this.setState({ message: "", username: "", password: "", name: "", selectedValue: "", airCompany: "" });
     }
 
     toggle = field => {
@@ -56,17 +59,24 @@ class AdminData extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    loadJednu(ime) {
+        fetch('/api/airCompany/' + ime)
+            .then(response => response.json())
+            .then(data => { console.log("Avioooo  " + ime); this.setState({ airCompany: data }) })
+    }
+
+
     handleSubmit() {
-       
+
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-            airCompany: fetch('/api/airCompany/'+this.state.selectedValue)
-            .then(response => response.json())
-            .then(data => { this.setState({ airCompany: data }) })
+            airCompany: this.state.airCompany
         }
+        // const [data1, data2] = Promise.all(fetch);
         fetch('/api/administrator',
             {
+
                 method: 'POST',
                 headers:
                 {
@@ -82,7 +92,9 @@ class AdminData extends Component {
                 this.loadData(); this.cleanData(); this.toggle('showModal');
                 toast.success("Administrator sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
-            else { this.setState({ message: response.status + " Greska prilikom dodavanja administratora" }) }
+            else {
+                this.setState({ message: response.status + " Greska prilikom dodavanja administratora" })
+            }
         });
     }
 
@@ -121,9 +133,13 @@ class AdminData extends Component {
     }
 
     handleSelectChange = (selectedValue) => {
+
         this.setState({
             selectedValue: selectedValue
         });
+        let data = {
+            airCompany: this.loadJednu(selectedValue)
+        }
     }
 
     logOut() {
