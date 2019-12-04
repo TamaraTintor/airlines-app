@@ -14,6 +14,7 @@ class SupervizorHome extends Component {
                 this.props.history.push('/')
             }
         });
+        this.logOut=this.logOut.bind(this);
    }
 
     logOut() {
@@ -30,16 +31,13 @@ class SupervizorHome extends Component {
     }
 
     adminPage() {
-        //    (() => this.props.history.push('/'));
         window.close("/supervizor");
         window.open("/adminData");
        
     }
     userPage() {
-        //    (() => this.props.history.push('/'));
         window.close("/supervizor");
         window.open("/userData");
-       
     }
 
 
