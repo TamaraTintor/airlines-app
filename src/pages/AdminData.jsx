@@ -7,8 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
 import ComboAviokompanije from '../combobox/ComboAvikomanije';
 
-//import Async from 'react-select/lib/Async';
-
 class AdminData extends Component {
 
     constructor(props) {
@@ -200,7 +198,7 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadData(); this.cleanData();this.toggle('showModalIzmjena');
                 toast.success("Administrator izmjenjen", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -210,11 +208,14 @@ class AdminData extends Component {
     }
 
     openModalWithItem(item) {
+        let pom={
+            airCompany: this.loadJednu(item.airCompany.name)
+        }
         this.setState({
            showModalIzmjena: true,
            username: item.username,
            password: item.password,
-           airCompany: item.airCompany.name
+           airCompany: pom
         })
      }
 
@@ -253,11 +254,11 @@ class AdminData extends Component {
                                 <br></br>
                                 <ComboAviokompanije name="airCompany" id="airCompany" value={this.state.airCompany} onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
                                 <div>
-                                    Selected value: {this.state.selectedValue}
+                                    Izabrali ste aviokompaniju: {this.state.selectedValue}
                                 </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni administratora</Button>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -298,7 +299,7 @@ class AdminData extends Component {
                                         Username:
                                 </InputGroupAddon>
                                     <Input
-                                        type="text" name="username" id="usernameIzmjena" value={this.state.username} onChange={this.handleInputChange}
+                                        type="text" name="usernameIzmjena" id="usernameIzmjena" defaultValue={this.state.username} onChange={this.handleInputChange}
                                     ></Input>
                                 </InputGroup>
                                 <br></br>
@@ -307,30 +308,28 @@ class AdminData extends Component {
                                         Password:
                                  </InputGroupAddon>
                                     <Input
-                                        type="text" name="password" id="passwordIzmjena" value={this.state.password} onChange={(event) => this.handleInputChange(event)}
+                                        type="text" name="passwordIzmjena" id="passwordIzmjena" defaultValue={this.state.password} onChange={(event) => this.handleInputChange(event)}
                                     ></Input>
                                 </InputGroup>
                                 <br></br>
-                                <ComboAviokompanije name="airCompany" id="airCompanyIzmjena" value={this.state.airCompany} selectedValue={this.state.airCompany.name} onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
+                                <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" /*value={this.state.airCompany} /*selected={this.state.airCompany.name}*/ onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
                                 <div>
-                                    Selected value: {this.state.selectedValue}
+                                   Nova aviokompanija: {this.state.selectedValue}
                                 </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
 
                 <Container>
-
-                    <Table>
+                <Table borderless="true">
                         <tbody>
                             <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Admin data</h1></td>
-
-                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
+                                <td><h1 style={{ color: "#923cb5" }}>Admin Data</h1></td>
+                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -364,7 +363,7 @@ class AdminData extends Component {
                                             }
                                         })()}
                                         </td>
-                                        <td><Button onClick={() => this.openModalWithItem(admin)}>Ismjeni</Button></td>
+                                        <td><Button onClick={() => this.openModalWithItem(admin)}>Izmjeni</Button></td>
                                     </tr>
                                 })
                             }

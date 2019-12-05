@@ -28,20 +28,16 @@ class ComboAviokompanije extends Component {
     }
 
     componentDidMount() {
-       this.loadDataAktivni();
+        this.loadDataAktivni();
     }
 
     render() {
         let airCompany = [...this.state.airCompany];
-        let options = airCompany.map((kompanije) =>
-            <option key={kompanije.id} value={kompanije.name}>
-                {kompanije.name}
-            </option>
-        );
         return (
             <select name="customSearch" className="custom-search-select" onChange={this.handleChange}>
+                <option value="" selected disabled hidden>Izaberite aviokompaniju </option>
                 {
-                    airCompany.map((kompanije) =>
+                    airCompany.map((kompanije) =>                   
                         <option key={kompanije.id} value={kompanije.name}>
                             {kompanije.name}
                         </option>

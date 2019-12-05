@@ -22,7 +22,8 @@ class AircompanyData extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.selectObject = this.selectObject.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
-        this.state = { airCompanies: [], showModal: false, message: "", name: "", showModal1: false }
+        this.handleIzmjena=this.handleIzmjena.bind(this);
+        this.state = { airCompanies: [], showModal: false, message: "", name: "", showModalIzmjena: false, id:"",active:"" }
     }
 
     loadDataAktivni() {
@@ -58,7 +59,7 @@ class AircompanyData extends Component {
     handleSubmit() {
         let dataToSend = {
             name: this.state.name,
-        
+
         }
         fetch('/api/airCompany',
             {
@@ -73,7 +74,7 @@ class AircompanyData extends Component {
                 body: JSON.stringify(this.state),
             }
 
-            
+
         ).then(response => {
             if (response.status === 202) {
                 this.loadData(); this.cleanData(); this.toggle('showModal');
@@ -135,6 +136,47 @@ class AircompanyData extends Component {
         });
     }
 
+    handleIzmjena(event) {
+        let dataToSend = {
+            name: document.getElementById("nameIzmjena").value,
+            id: this.state.id,
+            active: this.state.active
+        }
+        fetch('api/airCompany',
+            {
+                method: 'PUT',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify(dataToSend),
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                toast.success("Avio kompanija izmjenjena", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else {
+                toast.error("Avio kompanija nije izmjenjena", { position: toast.POSITION_TOP_RIGHT });
+            }
+        });
+    }
+
+
+    openModalWithItem(item) {
+        this.setState({
+            showModalIzmjena: true,
+            id: item.id,
+            name: item.name,
+            active: item.active
+        })
+       
+    }
+
+
     render() {
         console.log("RENDER:")
         console.log(this.state);
@@ -158,22 +200,43 @@ class AircompanyData extends Component {
                                     ></Input>
                                 </InputGroup>
                                 <br></br>
-                              
+
                                 <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj avio kompaniju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
 
-                
                 <Container>
+                    <Modal
+                        isOpen={this.state.showModalIzmjena}
+                        toggle={() => this.toggle('showModalIzmjena')}
+                        className="bg-transparent modal-xl">
+                        <ModalBody>
+                            <div>
+                                <InputGroup size="sm">
+                                    <InputGroupAddon sm={3} addonType="prepend">
+                                        Name:
+                                </InputGroupAddon>
+                                    <Input
+                                        type="text" name="nameIzmjena" id="nameIzmjena" defaultValue={this.state.name} onChange={this.handleInputChange}
+                                    ></Input>
+                                </InputGroup>
+                                <br></br>
 
-                    <Table>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni avio kompaniju</Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
+                </Container>
+
+
+                <Container>
+                    <Table borderless="true">
                         <tbody>
                             <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Aircompany data</h1></td>
-
-                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
+                                <td><h1 style={{ color: "#923cb5" }}>Aircompany Data</h1></td>
+                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -189,7 +252,7 @@ class AircompanyData extends Component {
                     </Table>
                     <Table >
                         <thead>
-                            <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th></tr>
+                            <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th><th>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -197,13 +260,15 @@ class AircompanyData extends Component {
                                     return <tr key={airCompany.id}><td>{airCompany.id}</td><td>{airCompany.name}</td>
                                         <td>{String(airCompany.active)}</td>
                                         <td> {(() => {
-                                            switch (String(airCompany.active)){
-                                                case "true" :  return <Button onClick={(event) => this.selectObject(event)} value={airCompany.name}>Suspenduj</Button>;
-                                                case "false":  return <Button disabled>Suspenduj</Button>;
-                                             }})()}
+                                            switch (String(airCompany.active)) {
+                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={airCompany.name}>Suspenduj</Button>;
+                                                case "false": return <Button disabled>Suspenduj</Button>;
+                                            }
+                                        })()}
                                         </td>
+                                        <td><Button onClick={() => this.openModalWithItem(airCompany)}>Izmjeni</Button></td>
                                     </tr>
-                                })                              
+                                })
                             }
                         </tbody>
                     </Table>
