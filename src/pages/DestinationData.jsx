@@ -22,6 +22,7 @@ class DestinationData extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.selectObject = this.selectObject.bind(this);
+       // this.show = this.show.bind(this);
         this.state = { destinations: [], showModal: false, message: "", name: "", showModal1: false }
     }
 
@@ -138,7 +139,7 @@ class DestinationData extends Component {
         });
     }
 
-
+  
 
     render() {
         console.log("RENDER:")
@@ -183,7 +184,7 @@ class DestinationData extends Component {
                     </Table>
                 </Container>
                 <Container>
-                    <Table borderless="0">
+                    <Table borderless="true">
                         <tr>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novu destinaciju</Button></td>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Izmjeni</Button></td>

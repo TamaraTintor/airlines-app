@@ -188,7 +188,7 @@ class AirplaneData extends Component {
                     </Table>
                 </Container>
                 <Container>
-                    <Table borderless="0">
+                    <Table borderless="true">
                         <tr>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novi avion</Button></td>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Izmjeni</Button></td>

@@ -14,7 +14,7 @@ class Login extends Component {
 
         checkIfLogged().then(resp => {
             if (resp) {
-                this.props.history.push('/supervizor')
+                this.props.history.push('/')
             }
         });
 
@@ -71,6 +71,9 @@ class Login extends Component {
     }
     handleSubmit() {
         var element = document.getElementById("tipKorisnika");
+        localStorage.setItem('data', element.value);
+
+        console.log(this,this.state);
         if(element.value === 'SUPERVIZOR'){
             this.loadSupervisorPage();
         }else if (element.value === 'ADMINISTARTOR'){
