@@ -63,5 +63,13 @@ code {
   padding-left: 5px;
 }
 .slika{
-  height: "300px";
+ 
+    min-height: 120px;
+    max-height: auto;
+    height: 100px;
+    width: 500px;
+ 
+  position: absolute;
+  left: 200px;
+  top: 400px;
 }

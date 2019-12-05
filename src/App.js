@@ -35,7 +35,14 @@ import SupervizorHome from './pages/SupervizorHome';
 import UserHome from './pages/UserHome';
 import AdminData from './pages/AdminData';
 import UserData from './pages/UserData';
+import DestinationData from './pages/DestinationData';
+import AircompanyData from './pages/AircompanyData';
+import AirplaneData from './pages/AirplaneData';
+//import FlightData from './pages/FlightData';
 
+
+
+import AdminHome from './pages/AdminHome';
 class App extends Component {
   render() {
     return (
@@ -83,6 +90,45 @@ class App extends Component {
             render={props => {
               return (
                 <UserData {...props} />
+              );
+            }}
+          />
+          <Route
+            path="/admin"
+            exact={true}
+            render={props => {
+              return (
+                <AdminHome {...props} />
+              );
+            }}
+          />
+              <Route
+            path="/destinationData"
+            exact={true}
+            render={props => {
+              return (
+                <DestinationData {...props} />
+              );
+            }}
+          />
+          
+              <Route
+            path="/aircompanyData"
+            exact={true}
+            render={props => {
+              return (
+                <AircompanyData {...props} />
+              );
+            }}
+          />
+          
+
+          <Route
+            path="/airplaneData"
+            exact={true}
+            render={props => {
+              return (
+                <AirplaneData {...props} />
               );
             }}
           />

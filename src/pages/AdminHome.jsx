@@ -30,38 +30,27 @@ class SupervizorHome extends Component {
         ).catch(() => this.props.history.push('/'));
     }
 
-    adminPage() {
-        window.close("/supervizor");
-        window.open("/adminData","_self");
+    flightPage() {
+        window.close("/admin");
+        window.open("/flightData","_self");
        
     }
-    userPage() {
-        window.close("/supervizor");
-        window.open("/userData","_self");
-    }
     destinationPage() {
-        window.close("/supervizor");
+        window.close("/admin");
         window.open("/destinationData","_self");
     }
-    aircompanyPage() {
-        window.close("/supervizor");
-        window.open("/aircompanyData","_self");
-    }
-
     airplanePage() {
-        window.close("/supervizor");
+        window.close("/admin");
         window.open("/airplaneData","_self");
     }
+
 
     render() {
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <h1 style={{ color: "#923cb5" }}>Supervizor Page</h1><br></br>
-                <Button className="buttonSupervizor" onClick={() => this.userPage()} >Rad sa korisnicima </Button><br></br><br></br>
-                <Button className="buttonSupervizor" onClick={() => this.adminPage()} >Rad sa administartorom </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.destinationPage()} >Rad sa destinacijama </Button><br></br><br></br>
-                <Button className="buttonSupervizor" onClick={() => this.adminPage()} >Rad sa letovima </Button><br></br><br></br>
-                <Button className="buttonSupervizor" onClick={() => this.aircompanyPage()} >Rad sa aviokompanijama </Button><br></br><br></br>
+                <Button className="buttonSupervizor" onClick={() => this.flightPage()} >Rad sa letovima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.airplanePage()} >Rad sa avionima </Button><br></br><br></br>
                 <Button style={{ backgroundColor: "#42378F", left: "50px", width: "200px",position: "absolute" }} onClick={this.logOut}>Log out</Button>
                            
