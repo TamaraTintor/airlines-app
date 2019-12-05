@@ -22,8 +22,8 @@ class DestinationData extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.selectObject = this.selectObject.bind(this);
-       // this.show = this.show.bind(this);
-        this.state = { destinations: [], showModal: false, message: "", name: "", showModal1: false }
+        this.handleIzmjena=this.handleIzmjena.bind(this);
+        this.state = { destinations: [], showModal: false, message: "", name: "", showModalIzmjena: false, id:"", active:""}
     }
 
     loadDataAktivni() {
@@ -113,10 +113,10 @@ class DestinationData extends Component {
     }
 
 
-    
+
     selectObject(event)//da suspenduje objekat
     {
-        var putanja = '/api/destionation/' + event.target.value;
+        var putanja = '/api/destination/' + event.target.value;
         fetch(putanja,
             {
                 method: 'DELETE',
@@ -139,7 +139,49 @@ class DestinationData extends Component {
         });
     }
 
+<<<<<<< HEAD
   
+=======
+    handleIzmjena(event) {
+        let dataToSend = {
+            name: document.getElementById("nameIzmjena").value,
+            id: this.state.id,
+            active: this.state.active
+        }
+        fetch('api/destination',
+            {
+                method: 'PUT',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                credentials: 'include',
+                body: JSON.stringify(dataToSend),
+            }
+        ).then(response => {
+            if (response.status === 202) {
+                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                toast.success("Destinacija izmjenjena", { position: toast.POSITION_TOP_RIGHT });
+            }
+            else {
+                toast.error("Destinacija nije izmjenjena", { position: toast.POSITION_TOP_RIGHT });
+            }
+        });
+    }
+
+>>>>>>> 9de89fe819a1cc02239030308772c562a7738f0f
+
+    openModalWithItem(item) {
+        this.setState({
+            showModalIzmjena: true,
+            id: item.id,
+            name: item.name,
+            active: item.active
+        })
+       
+    }
 
     render() {
         console.log("RENDER:")
@@ -147,7 +189,7 @@ class DestinationData extends Component {
         let destinations = [...this.state.destinations];
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={4000} />
+                <ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -172,13 +214,34 @@ class DestinationData extends Component {
                 </Container>
 
                 <Container>
+                    <Modal
+                        isOpen={this.state.showModalIzmjena}
+                        toggle={() => this.toggle('showModalIzmjena')}
+                        className="bg-transparent modal-xl">
+                        <ModalBody>
+                            <div>
+                                <InputGroup size="sm">
+                                    <InputGroupAddon sm={3} addonType="prepend">
+                                        Name:
+                                </InputGroupAddon>
+                                    <Input
+                                        type="text" name="nameIzmjena" id="nameIzmjena" defaultValue={this.state.name} onChange={this.handleInputChange}
+                                    ></Input>
+                                </InputGroup>
+                                <br></br>
 
-                    <Table>
+                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni destinaciju</Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
+                </Container>
+
+                <Container>
+                    <Table borderless="true">
                         <tbody>
                             <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Destination data</h1></td>
-
-                                <td><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
+                                <td><h1 style={{ color: "#923cb5" }}>Destination Data</h1></td>
+                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -187,28 +250,31 @@ class DestinationData extends Component {
                     <Table borderless="true">
                         <tr>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novu destinaciju</Button></td>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Izmjeni</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi ispravne destinacije:</font></p> </td>
+                            <td align="right"> <p><font color="white">Prikazi aktivne destinacije:</font></p> </td>
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
                     </Table>
                     <Table >
                         <thead>
-                            <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th></tr>
+                            <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th><th>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
                                 destinations.map((destionation) => {
-                                    return <tr key={destionation.id}><td>{destionation.id}</td><td>{destionation.name}</td>
+                                    return <tr key={destionation.id}>
+                                        <td>{destionation.id}</td>
+                                        <td>{destionation.name}</td>
                                         <td>{String(destionation.active)}</td>
                                         <td> {(() => {
-                                            switch (String(destionation.active)){
-                                                case "true" :  return <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button>;
-                                                case "false":  return <Button disabled>Suspenduj</Button>;
-                                             }})()}
+                                            switch (String(destionation.active)) {
+                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button>;
+                                                case "false": return <Button disabled>Suspenduj</Button>;
+                                            }
+                                        })()}
                                         </td>
+                                        <td><Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button></td>
                                     </tr>
-                                })                              
+                                })
                             }
                         </tbody>
                     </Table>
