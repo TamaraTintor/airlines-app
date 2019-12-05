@@ -139,9 +139,7 @@ class DestinationData extends Component {
         });
     }
 
-<<<<<<< HEAD
   
-=======
     handleIzmjena(event) {
         let dataToSend = {
             name: document.getElementById("nameIzmjena").value,
@@ -171,7 +169,6 @@ class DestinationData extends Component {
         });
     }
 
->>>>>>> 9de89fe819a1cc02239030308772c562a7738f0f
 
     openModalWithItem(item) {
         this.setState({
