@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 
-class ComboAviokompanije extends Component {
+class ComboAvioni extends Component {
     constructor(props) {
         super(props)
 
-        this.state = { airCompany: [] }
+        this.state = { airplane: [] }
 
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     loadData() {
-        fetch('/api/airCompany')
+        fetch('/api/airplane')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompany: data }) });
+            .then(data => { console.log(this.state); this.setState({ airplane: data }) });
     }
 
     loadDataAktivni() {
-        fetch('/api/airCompany/aktivni')
+        fetch('/api/airplane/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompany: data }) });
+            .then(data => { console.log(this.state); this.setState({ airplane: data }) });
     }
 
     handleChange = (event) => {
@@ -32,14 +32,14 @@ class ComboAviokompanije extends Component {
     }
 
     render() {
-        let airCompany = [...this.state.airCompany];
+        let airplane = [...this.state.airplane];
         return (
             <select name="customSearch" className="custom-search-select" onChange={this.handleChange}>
-                <option value="" selected disabled hidden>Izaberite aviokompaniju: </option>
+                <option value="" selected disabled hidden>Izaberite avion: </option>
                 {
-                    airCompany.map((kompanije) =>                   
-                        <option key={kompanije.id} value={kompanije.name}>
-                            {kompanije.name}
+                    airplane.map((avion) =>                   
+                        <option key={avion.id} value={avion.id}>
+                            {avion.brand}
                         </option>
                     )}
             </select>
@@ -47,4 +47,4 @@ class ComboAviokompanije extends Component {
     }
 }
 
-export default ComboAviokompanije;
+export default ComboAvioni;

@@ -38,8 +38,7 @@ import UserData from './pages/UserData';
 import DestinationData from './pages/DestinationData';
 import AircompanyData from './pages/AircompanyData';
 import AirplaneData from './pages/AirplaneData';
-//import FlightData from './pages/FlightData';
-
+import FlightData from './pages/FlightData';
 
 
 import AdminHome from './pages/AdminHome';
@@ -48,7 +47,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-        <Route
+          <Route
             path="/"
             exact={true}
             render={props => {
@@ -56,8 +55,8 @@ class App extends Component {
                 <Home {...props} />
               );
             }}
-            />
-            <Route
+          />
+          <Route
             path="/adminData"
             exact={true}
             render={props => {
@@ -66,7 +65,7 @@ class App extends Component {
               );
             }}
           />
-            <Route
+          <Route
             path="/supervizor"
             exact={true}
             render={props => {
@@ -75,7 +74,17 @@ class App extends Component {
               );
             }}
           />
-           <Route
+
+          <Route
+            path="/user"
+            exact={true}
+            render={props => {
+              return (
+                <UserHome {...props} />
+              );
+            }}
+          />
+          <Route
             path="/login"
             exact={true}
             render={props => {
@@ -102,7 +111,7 @@ class App extends Component {
               );
             }}
           />
-              <Route
+          <Route
             path="/destinationData"
             exact={true}
             render={props => {
@@ -111,8 +120,8 @@ class App extends Component {
               );
             }}
           />
-          
-              <Route
+
+          <Route
             path="/aircompanyData"
             exact={true}
             render={props => {
@@ -121,7 +130,15 @@ class App extends Component {
               );
             }}
           />
-          
+            <Route
+            path="/flightData"
+            exact={true}
+            render={props => {
+              return (
+                <FlightData {...props} />
+              );
+            }}
+          />
 
           <Route
             path="/airplaneData"

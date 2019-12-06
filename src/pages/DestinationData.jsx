@@ -71,7 +71,7 @@ class DestinationData extends Component {
                 },
                 mode: 'cors',
                 credentials: 'include',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(dataToSend),
             }
 
 
@@ -266,6 +266,7 @@ class DestinationData extends Component {
                                             switch (String(destionation.active)) {
                                                 case "true": return <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button>;
                                                 case "false": return <Button disabled>Suspenduj</Button>;
+                                                default: return <p></p>
                                             }
                                         })()}
                                         </td>
@@ -283,4 +284,4 @@ class DestinationData extends Component {
 
 }
 
-export default DestinationData
+export default DestinationData;

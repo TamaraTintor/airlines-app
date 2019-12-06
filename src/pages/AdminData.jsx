@@ -83,7 +83,7 @@ class AdminData extends Component {
                 },
                 mode: 'cors',
                 credentials: 'include',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(dataToSend),
             }
         ).then(response => {
             if (response.status === 202) {
@@ -110,7 +110,7 @@ class AdminData extends Component {
                 },
                 mode: 'cors',
                 credentials: 'include',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(dataToSend),
             }
         ).then(response => {
             if (response.status === 202) {
@@ -194,7 +194,7 @@ class AdminData extends Component {
                 },
                 mode: 'cors',
                 credentials: 'include',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(dataToSend),
             }
         ).then(response => {
             if (response.status === 202) {
@@ -360,6 +360,7 @@ class AdminData extends Component {
                                             switch (String(admin.active)) {
                                                 case "true": return <Button onClick={(event) => this.selectObject(event)} value={admin.username}>Suspenduj</Button>;
                                                 case "false": return <Button disabled>Suspenduj</Button>;
+                                                default: return <p></p>
                                             }
                                         })()}
                                         </td>
@@ -377,4 +378,4 @@ class AdminData extends Component {
 
 }
 
-export default AdminData
+export default AdminData;

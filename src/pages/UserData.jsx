@@ -210,6 +210,7 @@ class UserData extends Component {
                                             switch (String(user.active)){
                                                 case "true" :  return <Button onClick={(event) => this.selectObject(event)} value={user.username}>Suspenduj</Button>;
                                                 case "false":  return <Button disabled>Suspenduj</Button>;
+                                                default: return <p></p>
                                              }})()}
                                         </td>
                                     </tr>
@@ -223,4 +224,4 @@ class UserData extends Component {
     };
 }
 
-export default UserData
+export default UserData;

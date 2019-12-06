@@ -23,6 +23,7 @@ class Login extends Component {
 
         this.state = { username: "", password: "", message: "" };
     }
+
     loadSupervisorPage() {
         fetch('/auth/loginSupervizor',
             {
@@ -35,10 +36,8 @@ class Login extends Component {
                 },
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/supervizor') } else { this.setState({ message: "Invalid credentials" })} });
+        ).then(response => { if (response.status === 200) { this.props.history.push('/supervizor') } else { this.setState({ message: "Nisu ispravni username i password." }) } });
     }
-
-
 
 
     loadAdminPage() {
@@ -53,7 +52,13 @@ class Login extends Component {
                 },
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/admin') } else { this.setState({ message: "Invalid credentials" }) } });
+        ).then(response => {
+            if (response.status === 200) {
+                this.props.history.push('/admin')
+            } else {
+                this.setState({ message: "Invalid credentials" })
+            }
+        });
     }
     loadUserPage() {
         fetch('/auth/loginUser',
@@ -67,22 +72,23 @@ class Login extends Component {
                 },
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/user') } else { this.setState({ message: "Invalid credentials" })} });
+        ).then(response => { if (response.status === 200) { this.props.history.push('/user') } else { this.setState({ message: "Invalid credentials" }) } });
     }
+
+
     handleSubmit() {
         var element = document.getElementById("tipKorisnika");
         localStorage.setItem('data', element.value);
 
-        console.log(this,this.state);
-        if(element.value === 'SUPERVIZOR'){
+        console.log(this, this.state);
+        if (element.value === 'SUPERVIZOR') {
             this.loadSupervisorPage();
-        }else if (element.value === 'ADMINISTARTOR'){
+        } else if (element.value === 'ADMINISTARTOR') {
             this.loadAdminPage();
-        }else{
+        } else {
             this.loadUserPage();
         }
- }
-
+    }
 
     render() {
         return (
@@ -111,7 +117,7 @@ class Login extends Component {
                         </InputGroup>
                         <div class="form-group">
                             <label class="label">Tip korisnika:</label>
-                            <select class="form-control" id="tipKorisnika"> 
+                            <select class="form-control" id="tipKorisnika">
                                 <option>SUPERVIZOR</option>
                                 <option>ADMINISTARTOR</option>
                                 <option>KORISNIK</option>
