@@ -56,6 +56,10 @@ class SupervizorHome extends Component {
         window.close("/supervizor");
         window.open("/airplaneData","_self");
     }
+    flightPage() {
+        window.close("/supervizor");
+        window.open("/flightData","_self");
+    }
 
  
     show() {
@@ -77,7 +81,7 @@ class SupervizorHome extends Component {
                 <Button className="buttonSupervizor" onClick={() => this.userPage()} >Rad sa korisnicima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.adminPage()} >Rad sa administartorom </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.destinationPage()} >Rad sa destinacijama </Button><br></br><br></br>
-                <Button className="buttonSupervizor" onClick={() => this.adminPage()} >Rad sa letovima </Button><br></br><br></br>
+                <Button className="buttonSupervizor" onClick={() => this.flightPage()} >Rad sa letovima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.aircompanyPage()} >Rad sa aviokompanijama </Button><br></br><br></br>
                 
                 <Button className="buttonSupervizor" id="prikaz" onLoad={() => this.show()} onClick={() => this.airplanePage()} >Rad sa avionima </Button><br></br><br></br>
@@ -92,4 +96,4 @@ class SupervizorHome extends Component {
     };
 }
 
-export default SupervizorHome
+export default SupervizorHome;

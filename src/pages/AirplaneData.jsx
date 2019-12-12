@@ -69,7 +69,7 @@ class AirplaneData extends Component {
                 },
                 mode: 'cors',
                 credentials: 'include',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(dataToSend),
             }
 
 
@@ -274,6 +274,7 @@ class AirplaneData extends Component {
                                             switch (String(airplane.active)) {
                                                 case "true": return <Button onClick={(event) => this.selectObject(event)} value={airplane.id}>Suspenduj</Button>;
                                                 case "false": return <Button disabled>Suspenduj</Button>;
+                                                default: return <p></p>
                                             }
                                         })()}
                                         </td>
@@ -292,4 +293,4 @@ class AirplaneData extends Component {
 
 }
 
-export default AirplaneData
+export default AirplaneData;

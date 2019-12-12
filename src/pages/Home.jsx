@@ -59,11 +59,11 @@ class Home extends Component {
           else {*/
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <h1 class="naziv">Lanaco Airlines</h1>
-                <h2 class="header">Dobro došli!</h2>
-                <div class="slika"><img src={Slika} width="100" height="80" alt="Slika se nije ucitala." />
+                <h1 className="naziv">Lanaco Airlines</h1>
+                <h2 className="header">Dobro došli!</h2>
+                <div className="slika"><img src={Slika} width="100" height="80" alt="Slika se nije ucitala." />
                 </div>
-                <Link  to="/login" class="buttonLogin">Login </Link>
+                <Link  to="/login" className="buttonLogin">Login </Link>
                     
                 </div >
                 );

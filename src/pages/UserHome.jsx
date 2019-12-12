@@ -57,4 +57,4 @@ class UserHome extends Component {
 
 }
 
-export default UserHome
+export default UserHome;

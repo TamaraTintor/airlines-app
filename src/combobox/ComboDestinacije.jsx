@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 
-class ComboAviokompanije extends Component {
+class ComboDestinacije extends Component {
     constructor(props) {
         super(props)
 
-        this.state = { airCompany: [] }
+        this.state = { destination: [] }
 
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     loadData() {
-        fetch('/api/airCompany')
+        fetch('/api/destination')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompany: data }) });
+            .then(data => { console.log(this.state); this.setState({ destination: data }) });
     }
 
     loadDataAktivni() {
-        fetch('/api/airCompany/aktivni')
+        fetch('/api/destination/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompany: data }) });
+            .then(data => { console.log(this.state); this.setState({ destination: data }) });
     }
 
     handleChange = (event) => {
@@ -32,14 +32,14 @@ class ComboAviokompanije extends Component {
     }
 
     render() {
-        let airCompany = [...this.state.airCompany];
+        let destination = [...this.state.destination];
         return (
             <select name="customSearch" className="custom-search-select" onChange={this.handleChange}>
-                <option value="" selected disabled hidden>Izaberite aviokompaniju: </option>
+                <option value="" selected disabled hidden>Izaberite destinaciju: </option>
                 {
-                    airCompany.map((kompanije) =>                   
-                        <option key={kompanije.id} value={kompanije.name}>
-                            {kompanije.name}
+                    destination.map((destinacije) =>                   
+                        <option key={destinacije.id} value={destinacije.name}>
+                            {destinacije.name}
                         </option>
                     )}
             </select>
@@ -47,4 +47,4 @@ class ComboAviokompanije extends Component {
     }
 }
 
-export default ComboAviokompanije;
+export default ComboDestinacije;
