@@ -270,7 +270,17 @@ class DestinationData extends Component {
                                             }
                                         })()}
                                         </td>
-                                        <td><Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button></td>
+                                        <td>
+                                            
+                                        {(() => {
+                                            switch (localStorage.getItem('data') !== "ADMINISTARTOR") {
+                                                case "true": return <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button>;
+                                                case "false": return <Button disabled>Izmjeni</Button>;
+                                                default: return <p></p>
+                                            }
+                                        })()}
+                                            
+                                            </td>
                                     </tr>
                                 })
                             }

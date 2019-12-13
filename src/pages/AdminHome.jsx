@@ -15,6 +15,7 @@ class AdminHome extends Component {
             }
         });
         this.logOut=this.logOut.bind(this);
+     
    }
 
     logOut() {
@@ -44,7 +45,7 @@ class AdminHome extends Component {
         window.open("/airplaneData","_self");
     }
 
-
+ 
     render() {
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
