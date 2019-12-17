@@ -23,6 +23,7 @@ class DestinationData extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.selectObject = this.selectObject.bind(this);
         this.handleIzmjena=this.handleIzmjena.bind(this);
+        this.show=this.show.bind(this);
         this.state = { destinations: [], showModal: false, message: "", name: "", showModalIzmjena: false, id:"", active:""}
     }
 
@@ -180,6 +181,12 @@ class DestinationData extends Component {
        
     }
 
+    show(){
+        var elements=document.getElementById("buttonIzmjena");
+        elements.style.display="none";
+        
+        }
+        
     render() {
         console.log("RENDER:")
         console.log(this.state);
@@ -253,7 +260,10 @@ class DestinationData extends Component {
                     </Table>
                     <Table >
                         <thead>
-                            <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th><th>Izmjeni</th></tr>
+                            <tr><th>ID</th><th>Name</th><th>IsActive</th>
+                            <th
+                               style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
+                            }>Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -264,23 +274,22 @@ class DestinationData extends Component {
                                         <td>{String(destionation.active)}</td>
                                         <td> {(() => {
                                             switch (String(destionation.active)) {
-                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button>;
-                                                case "false": return <Button disabled>Suspenduj</Button>;
+                                                case "true": 
+                                               
+                                               return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)}  value={destionation.name}>Suspenduj</Button> : null;
+                                                case "false": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ?<Button disabled>Suspenduj</Button> :null;
                                                 default: return <p></p>
                                             }
                                         })()}
                                         </td>
-                                        <td>
-                                            
-                                        {(() => {
-                                            switch (localStorage.getItem('data') !== "ADMINISTARTOR") {
-                                                case "true": return <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button>;
-                                                case "false": return <Button disabled>Izmjeni</Button>;
-                                                default: return <p></p>
-                                            }
-                                        })()}
-                                            
-                                            </td>
+                           
+<td>
+{ (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button> : null }
+
+    </td>
+
+
+
                                     </tr>
                                 })
                             }

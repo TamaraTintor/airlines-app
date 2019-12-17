@@ -65,13 +65,15 @@ class SupervizorHome extends Component {
     show() {
         var x = document.getElementById("prikaz1");
         console.log(localStorage.getItem('data') );
-        if (localStorage.getItem('data') === "ADMINISTARTOR") {
+       var uloga=localStorage.getItem('data');
+        if (uloga === "ADMINISTARTOR") {
           x.style.display = "";
         } else {
           x.style.display = "none";
 
           
-        }
+        }    localStorage.removeItem('data');
+        localStorage.setItem('data', uloga);
       } 
 
     render() {

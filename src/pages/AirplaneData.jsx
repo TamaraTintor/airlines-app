@@ -260,7 +260,10 @@ class AirplaneData extends Component {
                     </Table>
                     <Table >
                         <thead>
-                            <tr><th>ID</th><th>Brand</th><th>Seats</th><th>IsActive</th><th>Suspenduj</th><th>Izmjeni</th></tr>
+                            <tr><th>ID</th><th>Brand</th><th>Seats</th><th>IsActive</th><th
+                                style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
+                            }
+                            >Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -272,13 +275,17 @@ class AirplaneData extends Component {
                                         <td>{String(airplane.active)}</td>
                                         <td> {(() => {
                                             switch (String(airplane.active)) {
-                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={airplane.id}>Suspenduj</Button>;
-                                                case "false": return <Button disabled>Suspenduj</Button>;
+                                                case "true": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)}  value={airplane.id}>Suspenduj</Button> : null;
+                                                case "false": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ?<Button disabled>Suspenduj</Button> :null;
                                                 default: return <p></p>
                                             }
                                         })()}
                                         </td>
-                                        <td><Button onClick={() => this.openModalWithItem(airplane)}>Izmjeni</Button></td>
+                                                            
+<td>
+{ (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(airplane)}>Izmjeni</Button> : null }
+
+    </td>
                                     </tr>
                                 })
                             }
