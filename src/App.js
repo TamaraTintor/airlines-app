@@ -30,7 +30,6 @@ import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Home from './pages/Home';
 import SupervizorHome from './pages/SupervizorHome';
 import UserHome from './pages/UserHome';
 import AdminData from './pages/AdminData';
@@ -47,15 +46,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route
-            path="/"
-            exact={true}
-            render={props => {
-              return (
-                <Home {...props} />
-              );
-            }}
-          />
+        
           <Route
             path="/adminData"
             exact={true}
@@ -85,7 +76,7 @@ class App extends Component {
             }}
           />
           <Route
-            path="/login"
+            path="/"
             exact={true}
             render={props => {
               return (

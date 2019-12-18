@@ -259,13 +259,13 @@ class DestinationData extends Component {
                         </tr>
                     </Table>
                     <Table >
-                        <thead>
+                        <thead >
                             <tr><th>ID</th><th>Name</th><th>IsActive</th>
                             <th
                                style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
                             }>Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             {
                                 destinations.map((destionation) => {
                                     return <tr key={destionation.id}>

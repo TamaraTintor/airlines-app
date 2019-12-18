@@ -86,6 +86,7 @@ class Login extends Component {
         } else if (element.value === 'ADMINISTARTOR') {
             this.loadAdminPage();
         } else {
+            localStorage.setItem('user', this.state.username);
             this.loadUserPage();
         }
     }
