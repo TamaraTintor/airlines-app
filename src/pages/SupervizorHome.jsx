@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
-import '../App.css';
+import '../index.css';
 import { checkIfLogged } from '../common.js'
 
 class SupervizorHome extends Component {
@@ -69,9 +69,7 @@ class SupervizorHome extends Component {
         if (uloga === "ADMINISTARTOR") {
           x.style.display = "";
         } else {
-          x.style.display = "none";
-
-          
+          x.style.display = "none";        
         }    localStorage.removeItem('data');
         localStorage.setItem('data', uloga);
       } 

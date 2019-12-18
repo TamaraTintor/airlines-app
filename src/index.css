@@ -1,12 +1,4 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/*tabela*/
 td {
   color:#ffffff;
   text-align: center;
@@ -20,8 +12,10 @@ tr{
 th{
   color:#ffffff;
   text-align: center;
-
 }
+
+
+
 .header{
   font-style: italic;
   padding-top: 150px;
@@ -39,6 +33,40 @@ th{
   border-color:  #af9fe3;
 
 }
+
+.inputGroup{
+  padding: 10px;
+  margin: auto;
+  max-width: 30%;
+  text-align: center;
+
+}
+#parent {
+  display: table;
+  width: 100%;
+  margin: auto;
+}
+#form_login {
+  margin: auto;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.buttonSupervizor{
+  background-color: #923cb5;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10%;
+  position: absolute;
+  left: 50px;
+  width: 250px;
+ }
 /*
 .label{
   color: rgb(255, 255, 255);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, InputGroup, InputGroupAddon, Container, Input } from 'reactstrap';
+import { Button, InputGroup, InputGroupAddon, Container, Input, Label } from 'reactstrap';
 import { checkIfLogged } from '../common.js'
 
 class Login extends Component {
@@ -99,38 +99,25 @@ class Login extends Component {
             }}>
                 <div class="header">Login </div>
                 <Container >
-                    <div>
-                        <InputGroup >
-                            <InputGroupAddon addonType="prepend" class="label">
-                                Username:
-              </InputGroupAddon>
-                            <Input type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange} placeholder="username"
-                            ></Input>
-                        </InputGroup>
-                        <InputGroup>
-                            <InputGroupAddon addonType="prepend" style={{ backgroundColor: "pink" }}>
-                                Password:
-              </InputGroupAddon>
-                            <Input class="polje"
-                                type="password" name="password" id="password" value={this.state.password}
-                                onChange={(event) => this.handleInputChange(event)}>
-                            </Input>
-                        </InputGroup>
-                        <div class="form-group">
-                            <label class="label">Tip korisnika:</label>
-                            <select class="form-control" id="tipKorisnika">
+                    <div id="parent">
+                        <form id="form_login">
+                            <Label>Username: </Label>
+                            <Input className="inputGroup" type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}></Input>
+                            <Label>Password: </Label> 
+                            <Input className="inputGroup" type="password" name="password" id="password" value={this.state.password} onChange={(event) => this.handleInputChange(event)}></Input>
+                            <Label color="white">Tip korisnika:</Label>
+                            <select className="combo" id="tipKorisnika">
                                 <option>SUPERVIZOR</option>
                                 <option>ADMINISTARTOR</option>
                                 <option>KORISNIK</option>
-
                             </select>
-                        </div>
-                        <div class="form-group">
                             <p style={{ color: '#923cb5' }}>{this.state.message}</p>
-                        </div>
-                        <br></br>
-                        <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
-                        <Link className="btn btn-outline-danger" to="/">Cancel</Link>
+                            <br></br>
+                            <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
+                            <Link className="btn btn-outline-danger" to="/">Cancel</Link>
+
+                        </form>
+
                     </div>
                 </Container>
             </div>

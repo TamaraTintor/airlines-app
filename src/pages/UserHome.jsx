@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Table, Label, Input } from 'reactstrap';
+import { Button, Table, Label, Modal, ModalBody } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import '../index.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
 import ComboDestinacije from '../combobox/ComboDestinacije';
-import ComboAviokompanije from '../combobox/ComboAvikomanije';
 import date from 'date-and-time';
 
 class UserHome extends Component {
@@ -28,9 +27,10 @@ class UserHome extends Component {
         this.loadUser = this.loadUser.bind(this);
         this.loadLet = this.loadLet.bind(this);
         this.izaberi = this.izaberi.bind(this);
-        this.handleDatum=this.handleDatum.bind(this);
-        this.loadAvionePoDestinaciji = this.loadAvionePoDestinaciji.bind(this);
-        this.state = { flights: [], tickets: [], numberOfTicket: "", flight: "", message: "", selectedValueAviokompanija: "", selectedValueDestinacija: "", datum: "", user: "" };
+        this.loadLetovePoDestinaciji = this.loadLetovePoDestinaciji.bind(this);
+        this.resetujPodatke = this.resetujPodatke.bind(this);
+        this.prikaziKarte = this.prikaziKarte.bind(this);
+        this.state = { flights: [], tickets: [], destinacija: "", numberOfTicket: "", flight: "", message: "", selectedValue: "", user: "" };
     }
 
     loadData() {
@@ -39,18 +39,11 @@ class UserHome extends Component {
             .then(data => { console.log(this.state); this.setState({ flights: data }) });
     }
 
-    loadAvionePoDestinaciji(ime) {
+    loadLetovePoDestinaciji(ime) {
         fetch('/api/flight/destination/' + ime)
             .then(response => response.json())
             .then(data => { console.log(this.state); this.setState({ flights: data }) });
     }
-
-    loadAvionePoDestinaciji(datum) {
-        fetch('/api/flight/' + datum)
-            .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
-    }
-
 
     componentWillMount() {
         this.loadData();
@@ -70,7 +63,7 @@ class UserHome extends Component {
     }
 
     cleanData() {
-        this.setState({ message: "", flight: "", numberOfTicket: "", selectedValueDestinacija: "", selectedValueAviokompanija: "", datum: "" });
+        this.setState({ destinacija: "", numberOfTicket: "", flight: "", message: "", selectedValue: "", showModal: false });
     }
 
     toggle = field => {
@@ -80,7 +73,8 @@ class UserHome extends Component {
     };
 
     loadUser() {
-        fetch('/api/user/igor')
+        var user = localStorage.getItem("user");
+        fetch('/api/user/' + user)
             .then(response => response.json())
             .then(data => { this.setState({ user: data }) })
     }
@@ -91,13 +85,20 @@ class UserHome extends Component {
             .then(data => { this.setState({ flight: data }) })
     }
 
+    prikaziKarte(ime) {
+        this.toggle('showModal');
+        var user = localStorage.getItem("user");
+        fetch('/api/ticket/' + user)
+            .then(response => response.json())
+            .then(data => { this.setState({ tickets: data }) })
+    }
+
     handleSubmit() {
         let dataToSend = {
             numberOfTicket: document.getElementById("number").value,
             flight: this.state.flight,
             user: this.state.user
         }
-        console.log("kartaaaa" + dataToSend.flight)
         fetch('/api/ticket',
             {
 
@@ -113,7 +114,7 @@ class UserHome extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData();
+                this.loadData(); this.cleanData(); this.resetujPodatke();
                 toast.success("Karta je kupljena", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -124,27 +125,29 @@ class UserHome extends Component {
 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-        this.loadAvionePoDatumu(event.target.value);
     }
 
-    handleSelectChangeDestinacije = (selectedValueDestinacija) => {
+    handleSelectChangeDestinacije = (selectedValue) => {
         this.setState({
-            selectedValueDestinacija: selectedValueDestinacija,
+            selectedValue: selectedValue,
         });
-        this.loadAvionePoDestinaciji(selectedValueDestinacija);
-    }
-
-    handleDatum = (selectedValueDatum) => {
-        this.setState({
-            selectedValueDatum: selectedValueDatum,
-        });
-        this.loadAvionePoDatumu(selectedValueDatum);
+        this.loadLetovePoDestinaciji(selectedValue);
     }
 
     izaberi(event) {
         let data = {
             flight: this.loadLet(event.target.value)
         }
+    }
+
+    resetujPodatke() {
+        this.loadData();
+        /*  var combo = document.getElementById("destination");
+          combo.selected="Izaberite destinaciju:"*/
+        var polje = document.getElementById("number");
+        polje.value = "";
+
+
     }
 
     logOut() {
@@ -163,26 +166,55 @@ class UserHome extends Component {
 
     render() {
         let flights = [...this.state.flights];
+        let tickets = [...this.state.tickets];
         return (
             <html>
                 <body>
                     <ToastContainer autoClose={4000} />
+                    <Modal isOpen={this.state.showModal}
+                        toggle={() => this.toggle('showModal')}
+                        className="bg-transparent modal-xl">
+                        <ModalBody>
+                            <Table>
+                                <thead>
+                                    <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>Broj mjesta</th><th>Destinacija</th></tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        tickets.map((ticket) => {
+                                            return <tr key={ticket.id}>
+                                                <td>{
+                                                    date.format(new Date(ticket.flight.flightDate), 'DD.MM.YYYY')
+                                                }</td>
+                                                <td>{
+                                                    date.format(new Date(ticket.flight.flightDate), 'HH:mm')
+                                                }</td>
+                                                <td>{ticket.flight.price}</td>
+                                                <td>{ticket.numberOfTicket}</td>
+                                                <td>{String(ticket.flight.destination.name)}</td>
+                                            </tr>
+                                        })
+                                    }
+                                </tbody>
+                            </Table>
+                        </ModalBody>
+                    </Modal>
                     <div style={{ backgroundColor: '#923cb5', justifyContent: 'center', alignItems: 'center', }}>
                         <div>
                             <p>User page</p>
                             <p><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></p>
-                            <p><Button style={{ backgroundColor: "#42378F" }} onClick={this.handleSubmit}>Kupi</Button></p>
                         </div>
                         <div className="sve">
                             <div className="lijevo">
+                                <Button className="date" onClick={this.resetujPodatke}>Prikazi sve letove</Button>
                                 <ComboDestinacije name="destination" id="destination" onSelectChange={this.handleSelectChangeDestinacije} />
-                                <Label className="label">Izaberite datum leta:</Label>
-                                <input className="date" type="date" name="datum" id="datum" onSelectChange={this.handleInputChange}></input>
                                 <Label className="label">Unesite broj osoba:</Label>
                                 <input className="date" type="number" min="1" id="number"></input>
+                                <Button className="date" onClick={this.handleSubmit}>Kupi</Button>
+                                <Button className="date" id="karte" onClick={this.prikaziKarte}>Prikazi moje karte</Button>
                             </div>
                             <div className="desno">
-                                <Table >
+                                <Table>
                                     <thead>
                                         <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Izaberi kartu</th></tr>
                                     </thead>
@@ -213,6 +245,7 @@ class UserHome extends Component {
                                         }
                                     </tbody>
                                 </Table>
+
                             </div>
                         </div>
                     </div>
