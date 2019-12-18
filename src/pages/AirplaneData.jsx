@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input,Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
@@ -37,7 +37,7 @@ class AirplaneData extends Component {
     }
 
     componentWillMount() {
-        this.loadData();
+        this.loadDataAktivni();
     }
 
     cleanData() {
@@ -85,9 +85,9 @@ class AirplaneData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
@@ -175,8 +175,10 @@ class AirplaneData extends Component {
         console.log(this.state);
         let airplanes = [...this.state.airplanes];
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={3000} />
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}><ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -203,7 +205,7 @@ class AirplaneData extends Component {
                                 </InputGroup>
                                 <br></br>
 
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj avion</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj avion</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -234,36 +236,26 @@ class AirplaneData extends Component {
                                     ></Input>
                                 </InputGroup>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni avion</Button>
+                                <Button className="supervizorButton" onClick={this.handleIzmjena}>Izmjeni avion</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
 
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>Airplane Data</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novi avion</Button>
+                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve avione:</Label>
+                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
+
                 <Container>
-                    <Table borderless="true">
-                        <tbody>
-                            <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Airplane Data</h1></td>
-                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Container>
-                <Container>
-                    <Table borderless="true">
-                        <tr>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novi avion</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi aktivne avione:</font></p> </td>
-                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                        </tr>
-                    </Table>
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Brand</th><th>Seats</th><th>IsActive</th><th
-                                style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
-                            }
-                            >Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
+                                style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }
+                                }
+                            >Suspenduj</th><th style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -275,17 +267,17 @@ class AirplaneData extends Component {
                                         <td>{String(airplane.active)}</td>
                                         <td> {(() => {
                                             switch (String(airplane.active)) {
-                                                case "true": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)}  value={airplane.id}>Suspenduj</Button> : null;
-                                                case "false": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ?<Button disabled>Suspenduj</Button> :null;
+                                                case "true": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)} value={airplane.id}>Suspenduj</Button> : null;
+                                                case "false": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button disabled>Suspenduj</Button> : null;
                                                 default: return <p></p>
                                             }
                                         })()}
                                         </td>
-                                                            
-<td>
-{ (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(airplane)}>Izmjeni</Button> : null }
 
-    </td>
+                                        <td>
+                                            {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(airplane)}>Izmjeni</Button> : null}
+
+                                        </td>
                                     </tr>
                                 })
                             }

@@ -15,10 +15,6 @@ class SupervizorHome extends Component {
             }
         });
         this.logOut=this.logOut.bind(this);
-        this.show=this.show.bind(this);
-       
-        console.log(localStorage.getItem('data') );
-       
    }
 
     logOut() {
@@ -61,32 +57,21 @@ class SupervizorHome extends Component {
         window.open("/flightData","_self");
     }
 
- 
-    show() {
-        var x = document.getElementById("prikaz1");
-        console.log(localStorage.getItem('data') );
-       var uloga=localStorage.getItem('data');
-        if (uloga === "ADMINISTARTOR") {
-          x.style.display = "";
-        } else {
-          x.style.display = "none";        
-        }    localStorage.removeItem('data');
-        localStorage.setItem('data', uloga);
-      } 
-
     render() {
         return (
-            <div id="prikaz1" style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <h1  style={{ color: "#923cb5" }}>Supervizor Page</h1><br></br>
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',}}>
+                <h1  style={{ color: "#ffffff", marginLeft: '50px' }}>Supervizor Page</h1><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.userPage()} >Rad sa korisnicima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.adminPage()} >Rad sa administartorom </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.destinationPage()} >Rad sa destinacijama </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.flightPage()} >Rad sa letovima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.aircompanyPage()} >Rad sa aviokompanijama </Button><br></br><br></br>
-                
-                <Button className="buttonSupervizor" id="prikaz" onLoad={() => this.show()} onClick={() => this.airplanePage()} >Rad sa avionima </Button><br></br><br></br>
+                <Button className="buttonSupervizor" onClick={() => this.airplanePage()} >Rad sa avionima </Button><br></br><br></br>
             
-                <Button style={{ backgroundColor: "#42378F", left: "50px", width: "200px",position: "absolute" }} onClick={this.logOut}>Log out</Button>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right:"50px", width: "250px",position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
                            
                      
                    

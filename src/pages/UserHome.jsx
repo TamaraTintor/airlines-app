@@ -168,89 +168,87 @@ class UserHome extends Component {
         let flights = [...this.state.flights];
         let tickets = [...this.state.tickets];
         return (
-            <html>
-                <body>
-                    <ToastContainer autoClose={4000} />
-                    <Modal isOpen={this.state.showModal}
-                        toggle={() => this.toggle('showModal')}
-                        className="bg-transparent modal-xl">
-                        <ModalBody>
-                            <Table>
-                                <thead>
-                                    <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>Broj mjesta</th><th>Destinacija</th></tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        tickets.map((ticket) => {
-                                            return <tr key={ticket.id}>
-                                                <td>{
-                                                    date.format(new Date(ticket.flight.flightDate), 'DD.MM.YYYY')
-                                                }</td>
-                                                <td>{
-                                                    date.format(new Date(ticket.flight.flightDate), 'HH:mm')
-                                                }</td>
-                                                <td>{ticket.flight.price}</td>
-                                                <td>{ticket.numberOfTicket}</td>
-                                                <td>{String(ticket.flight.destination.name)}</td>
-                                            </tr>
-                                        })
-                                    }
-                                </tbody>
-                            </Table>
-                        </ModalBody>
-                    </Modal>
-                    <div style={{ backgroundColor: '#923cb5', justifyContent: 'center', alignItems: 'center', }}>
-                        <div>
-                            <p>User page</p>
-                            <p><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></p>
-                        </div>
-                        <div className="sve">
-                            <div className="lijevo">
-                                <Button className="date" onClick={this.resetujPodatke}>Prikazi sve letove</Button>
-                                <ComboDestinacije name="destination" id="destination" onSelectChange={this.handleSelectChangeDestinacije} />
-                                <Label className="label">Unesite broj osoba:</Label>
-                                <input className="date" type="number" min="1" id="number"></input>
-                                <Button className="date" onClick={this.handleSubmit}>Kupi</Button>
-                                <Button className="date" id="karte" onClick={this.prikaziKarte}>Prikazi moje karte</Button>
-                            </div>
-                            <div className="desno">
-                                <Table>
-                                    <thead>
-                                        <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Izaberi kartu</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            flights.map((flight) => {
-                                                return <tr key={flight.id}>
-                                                    <td>{
-                                                        date.format(new Date(flight.flightDate), 'DD.MM.YYYY')
-                                                    }</td>
-                                                    <td>{
-                                                        date.format(new Date(flight.flightDate), 'HH:mm')
-                                                    }</td>
-                                                    <td>{flight.price}</td>
-                                                    <td>{flight.seatReserved}</td>
-                                                    <td>{String(flight.airCompany.name)}</td>
-                                                    <td>{String(flight.destination.name)}</td>
-                                                    <td>{String(flight.airplane.brand)}</td>
-                                                    <td> {(() => {
-                                                        switch (String(flight.active)) {
-                                                            case "true": return <Button onClick={(event) => this.izaberi(event)} value={flight.id}>izaberi</Button>;
-                                                            default: return <p></p>
-                                                        }
-                                                    })()}
-                                                    </td>
-                                                </tr>
-                                            })
-                                        }
-                                    </tbody>
-                                </Table>
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}>
+                <ToastContainer autoClose={4000} />
+                <Modal isOpen={this.state.showModal}
+                    toggle={() => this.toggle('showModal')}
+                    className="bg-transparent modal-xl">
+                    <ModalBody>
+                        <Table>
+                            <thead>
+                                <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>Broj mjesta</th><th>Destinacija</th></tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    tickets.map((ticket) => {
+                                        return <tr key={ticket.id}>
+                                            <td>{
+                                                date.format(new Date(ticket.flight.flightDate), 'DD.MM.YYYY')
+                                            }</td>
+                                            <td>{
+                                                date.format(new Date(ticket.flight.flightDate), 'HH:mm')
+                                            }</td>
+                                            <td>{ticket.flight.price}</td>
+                                            <td>{ticket.numberOfTicket}</td>
+                                            <td>{String(ticket.flight.destination.name)}</td>
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                    </ModalBody>
+                </Modal>
 
-                            </div>
-                        </div>
-                    </div>
-                </body>
-            </html>
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>User Page</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+                <div className="lijevo">
+                    <Button className="date" onClick={this.resetujPodatke}>Prikazi sve letove</Button>
+                    <ComboDestinacije name="destination" id="destination" onSelectChange={this.handleSelectChangeDestinacije} />
+                    <Label className="label">Unesite broj osoba:</Label>
+                    <input className="date" type="number" min="1" id="number"></input>
+                    <Button className="date" onClick={this.handleSubmit}>Kupi</Button>
+                    <Button className="date" id="karte" onClick={this.prikaziKarte}>Prikazi moje karte</Button>
+                </div>
+                <div className="desno">
+                    <Table>
+                        <thead>
+                            <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Izaberi kartu</th></tr>
+                        </thead>
+                        <tbody>
+                            {
+                                flights.map((flight) => {
+                                    return <tr key={flight.id}>
+                                        <td>{
+                                            date.format(new Date(flight.flightDate), 'DD.MM.YYYY')
+                                        }</td>
+                                        <td>{
+                                            date.format(new Date(flight.flightDate), 'HH:mm')
+                                        }</td>
+                                        <td>{flight.price}</td>
+                                        <td>{flight.seatReserved}</td>
+                                        <td>{String(flight.airCompany.name)}</td>
+                                        <td>{String(flight.destination.name)}</td>
+                                        <td>{String(flight.airplane.brand)}</td>
+                                        <td> {(() => {
+                                            switch (String(flight.active)) {
+                                                case "true": return <Button onClick={(event) => this.izaberi(event)} value={flight.id}>izaberi</Button>;
+                                                default: return <p></p>
+                                            }
+                                        })()}
+                                        </td>
+                                    </tr>
+                                })
+                            }
+                        </tbody>
+                    </Table>
+
+
+                </div>
+            </div>
+
         );
     };
 

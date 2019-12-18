@@ -32,7 +32,7 @@ class FlightData extends Component {
         this.loadJedanAvion = this.loadJedanAvion.bind(this);
         this.loadJednuDestinaciju = this.loadJednuDestinaciju.bind(this);
         this.handleIzmjena = this.handleIzmjena.bind(this);
-        this.loadAdmin=this.loadAdmin.bind(this);
+        this.loadAdmin = this.loadAdmin.bind(this);
         this.state = {
             flights: [], brand: "", seats: "", name: "", showModalAviokompanija: false, admin: "",
             showModalAvion: false, showModalDestinacija: false, showModal: false, message: "",
@@ -62,19 +62,19 @@ class FlightData extends Component {
     loadAdmin(ime) {
         fetch('/api/administrator/' + ime)
             .then(response => response.json())
-            .then(data => {console.log(data); this.setState({ admin: data }) });
+            .then(data => { console.log(data); this.setState({ admin: data }) });
     }
 
     componentWillMount() {
-       
+
         console.log("uslooo");
         var user = localStorage.getItem("data");
         console.log(user);
         if (user === "ADMINISTARTOR") {
             console.log(localStorage.getItem("id"));
-             this.loadDataZaAdmina(localStorage.getItem("id"));
-        } else{
-            
+            this.loadDataZaAdmina(localStorage.getItem("id"));
+        } else {
+
             this.loadDataAktivni();
         }
     }
@@ -353,8 +353,10 @@ class FlightData extends Component {
     render() {
         let flights = [...this.state.flights];
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={3000} />
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}><ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -417,7 +419,7 @@ class FlightData extends Component {
                                 <br></br>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj let</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj let</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -440,7 +442,7 @@ class FlightData extends Component {
                                 </InputGroup>
                                 <p style={{ color: '#923cb5' }}>{this.state.message1}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmitAviokompaniju}>Dodaj aviokompaniju</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmitAviokompaniju}>Dodaj aviokompaniju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -520,7 +522,7 @@ class FlightData extends Component {
                                 <br></br>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni let</Button>
+                                <Button className="supervizorButton" onClick={this.handleIzmjena}>Izmjeni let</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -543,7 +545,7 @@ class FlightData extends Component {
                                 </InputGroup>
                                 <br></br>
 
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmitDestinaciju}>Dodaj destinaciju</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmitDestinaciju}>Dodaj destinaciju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -575,33 +577,24 @@ class FlightData extends Component {
                                 </InputGroup>
                                 <br></br>
 
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmitAvion}>Dodaj avion</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmitAvion}>Dodaj avion</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
 
+
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>Flight Data</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novi let</Button>
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAviokompanija')}>Dodaj novu aviokompaniju</Button>
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAvion')}>Dodaj novi avion</Button>
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalDestinacija')}>Dodaj novu destinaciju</Button>
+                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve letove:</Label>
+                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
+
                 <Container>
-                    <Table borderless="true">
-                        <tbody>
-                            <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>flight Data</h1></td>
-                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Container>
-                <Container>
-                    <Table borderless="0">
-                        <tr>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novi let</Button></td>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModalAviokompanija')}>Dodaj novu aviokompaniju</Button></td>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModalAvion')}>Dodaj novi avion</Button></td>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModalDestinacija')}>Dodaj novu destinaciju</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi aktivne letove:</font></p> </td>
-                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                        </tr>
-                    </Table>
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Datum</th><th>Price</th><th>IsActive</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Suspenduj</th><th>Izmjeni</th></tr>

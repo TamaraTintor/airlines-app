@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input, Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
@@ -41,7 +41,7 @@ class AdminData extends Component {
     }
 
     componentWillMount() {
-        this.loadData();
+        this.loadDataAktivni();
     }
 
     cleanData() {
@@ -124,9 +124,9 @@ class AdminData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
@@ -177,9 +177,8 @@ class AdminData extends Component {
         });
     }
 
-    handleIzmjena(event)
-    {
-       let dataToSend = {
+    handleIzmjena(event) {
+        let dataToSend = {
             username: this.state.username,
             password: this.state.password,
             airCompany: this.state.airCompany
@@ -198,7 +197,7 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData();this.toggle('showModalIzmjena');
+                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
                 toast.success("Administrator izmjenjen", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -208,16 +207,16 @@ class AdminData extends Component {
     }
 
     openModalWithItem(item) {
-        let pom={
+        let pom = {
             airCompany: this.loadJednu(item.airCompany.name)
         }
         this.setState({
-           showModalIzmjena: true,
-           username: item.username,
-           password: item.password,
-           airCompany: pom
+            showModalIzmjena: true,
+            username: item.username,
+            password: item.password,
+            airCompany: pom
         })
-     }
+    }
 
 
     render() {
@@ -225,8 +224,10 @@ class AdminData extends Component {
         console.log(this.state);
         let administrators = [...this.state.administrators];
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={4000} />
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}><ToastContainer autoClose={4000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -258,7 +259,7 @@ class AdminData extends Component {
                                 </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj administratora</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -281,7 +282,7 @@ class AdminData extends Component {
                                 </InputGroup>
                                 <p style={{ color: '#923cb5' }}>{this.state.message1}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmitAvio}>Dodaj aviokompaniju</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmitAvio}>Dodaj aviokompaniju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -314,36 +315,25 @@ class AdminData extends Component {
                                 <br></br>
                                 <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" /*value={this.state.airCompany} /*selected={this.state.airCompany.name}*/ onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
                                 <div>
-                                   Nova aviokompanija: {this.state.selectedValue}
+                                    Nova aviokompanija: {this.state.selectedValue}
                                 </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni administratora</Button>
+                                <Button className="supervizorButton" onClick={this.handleIzmjena}>Izmjeni administratora</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>Admin Data</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novog administratora</Button>
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal1')}>Dodaj novu aviokompaniju</Button>
+
+                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve administratore:</Label>
+                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
 
                 <Container>
-                <Table borderless="true">
-                        <tbody>
-                            <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Admin Data</h1></td>
-                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Container>
-                <Container>
-                    <Table borderless="0">
-                        <tr>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog adminstratora</Button></td>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Dodaj novu aviokompaniju</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
-                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                        </tr>
-                    </Table>
-                    <div height = "60x">
                     <Table>
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
@@ -370,7 +360,7 @@ class AdminData extends Component {
                             }
                         </tbody>
                     </Table>
-                    </div>
+
                 </Container>
             </div>
         );

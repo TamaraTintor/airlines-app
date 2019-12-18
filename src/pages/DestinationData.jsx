@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input, Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { checkIfLogged } from '../common.js'
@@ -22,9 +22,9 @@ class DestinationData extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.selectObject = this.selectObject.bind(this);
-        this.handleIzmjena=this.handleIzmjena.bind(this);
-        this.show=this.show.bind(this);
-        this.state = { destinations: [], showModal: false, message: "", name: "", showModalIzmjena: false, id:"", active:""}
+        this.handleIzmjena = this.handleIzmjena.bind(this);
+        this.show = this.show.bind(this);
+        this.state = { destinations: [], showModal: false, message: "", name: "", showModalIzmjena: false, id: "", active: "" }
     }
 
     loadDataAktivni() {
@@ -140,7 +140,7 @@ class DestinationData extends Component {
         });
     }
 
-  
+
     handleIzmjena(event) {
         let dataToSend = {
             name: document.getElementById("nameIzmjena").value,
@@ -178,22 +178,24 @@ class DestinationData extends Component {
             name: item.name,
             active: item.active
         })
-       
+
     }
 
-    show(){
-        var elements=document.getElementById("buttonIzmjena");
-        elements.style.display="none";
-        
-        }
-        
+    show() {
+        var elements = document.getElementById("buttonIzmjena");
+        elements.style.display = "none";
+
+    }
+
     render() {
         console.log("RENDER:")
         console.log(this.state);
         let destinations = [...this.state.destinations];
         return (
-            <div style={{ backgroundColor: 'teal', margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={3000} />
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}><ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -211,7 +213,7 @@ class DestinationData extends Component {
                                 </InputGroup>
                                 <br></br>
 
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj destinaciju</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj destinaciju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
@@ -234,35 +236,26 @@ class DestinationData extends Component {
                                 </InputGroup>
                                 <br></br>
 
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleIzmjena}>Izmjeni destinaciju</Button>
+                                <Button className="supervizorButton" onClick={this.handleIzmjena}>Izmjeni destinaciju</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
 
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>Destination Data</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novu destinaciju</Button>
+                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve destinacije:</Label>
+                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
+
                 <Container>
-                    <Table borderless="true">
-                        <tbody>
-                                     <h1 style={{ color: "white" }}>Destination Data</h1>
-                                <div align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></div>
-                            
-                        </tbody>
-                    </Table>
-                </Container>
-                <Container>
-                    <Table borderless="true">
-                        <tr>
-                            <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novu destinaciju</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi sve destinacije:</font></p> </td>
-                            <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                        </tr>
-                    </Table>
                     <Table >
                         <thead >
                             <tr><th>ID</th><th>Name</th><th>IsActive</th>
-                            <th
-                               style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
-                            }>Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
+                                <th
+                                    style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }
+                                    }>Suspenduj</th><th style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -273,19 +266,17 @@ class DestinationData extends Component {
                                         <td>{String(destionation.active)}</td>
                                         <td> {(() => {
                                             switch (String(destionation.active)) {
-                                                case "true": 
-                                               
-                                               return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)}  value={destionation.name}>Suspenduj</Button> : null;
-                                                case "false": return  (localStorage.getItem('data') !== "ADMINISTARTOR") ?<Button disabled>Suspenduj</Button> :null;
+                                                case "true": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button> : null;
+                                                case "false": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button disabled>Suspenduj</Button> : null;
                                                 default: return <p></p>
                                             }
                                         })()}
                                         </td>
-                           
-<td>
-{ (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button> : null }
 
-    </td>
+                                        <td /*style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}*/>
+                                            {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button> : null}
+
+                                        </td>
 
 
 

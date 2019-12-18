@@ -1,20 +1,31 @@
 /*tabela*/
 td {
-  color:#ffffff;
-  text-align: center;
+  color:#4e3b3b;
+  text-align: left;
+  color: white;
 }
 tr:nth-child(even){
-  background-color: rgb(100, 146, 146);
+  background-color: #808080;
+
 }
 tr{
-  background-color: rgb(151, 163, 163);
+  background-color: #4d4d4d;
 }
 th{
   color:#ffffff;
   text-align: center;
+  background-color: #001f4d;
 }
 
-
+input[type=checkbox]
+{
+  -ms-transform: scale(1,5); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(1.2); /* Opera */
+  transform: scale(1.2);
+  padding: 10px;
+}
 
 .header{
   font-style: italic;
@@ -114,7 +125,7 @@ th{
   padding: 10px;
   padding-left: 20px;
   margin: 5px;
-  background-color: teal;
+  background-color:transparent;
 }
 
 .desno{
@@ -122,7 +133,7 @@ th{
   width: calc(80% - 20px);
   padding: 5px;
   margin: 5px;
-  background-color: teal;
+  background-color: transparent;
 }
 .sve{
   background-color: teal;
@@ -145,5 +156,14 @@ th{
 
 
 .stranica{
-  background-color: hotpink;
+  background-color: #0052cc;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  margin: auto;
+  align-items: 'center';
+  margin-bottom: 0;
+}
+.label-login{
+  color: white;
 }

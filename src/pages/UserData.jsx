@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input,Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import '../index.css';
@@ -22,8 +22,8 @@ class UserData extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.handleCheckBox = this.handleCheckBox.bind(this);
         this.selectObject = this.selectObject.bind(this);
-        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: ""}
-   }
+        this.state = { users: [], showModal: false, message: "", username: "", mail: "", password: "" }
+    }
 
     loadDataAktivni() {
         fetch('/api/user/aktivni')
@@ -135,8 +135,10 @@ class UserData extends Component {
     render() {
         let users = [...this.state.users];
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <ToastContainer autoClose={3000} />
+            <div style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
+            }}><ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -169,30 +171,18 @@ class UserData extends Component {
                                 </InputGroup>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
-                                <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Dodaj korisnika</Button>
+                                <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj korisnika</Button>
                             </div>
                         </ModalBody>
                     </Modal>
                 </Container>
+                <h1 style={{ color: "#ffffff", marginLeft: '50px' }}>User Data</h1><br></br>
+                <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
+
+                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button>
+                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve korisnike:</Label>
+                <input style={{width:"50px"}} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
                 <Container>
-                    <Table borderless="true">
-                        <tbody>
-                            <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>User Data</h1></td>
-                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Container>
-                <Container>
-                    <Table borderless="true">
-                        <thead>
-                            <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button></td>
-                                <td align="right"> <p><font color="white">Prikazi sve korisnike:</font></p> </td>
-                                <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
-                            </tr>
-                        </thead>
-                    </Table>
                     <Table id="tabela">
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>Email</th><th>Aktivan</th><th>Suspenduj</th></tr>
@@ -206,14 +196,15 @@ class UserData extends Component {
                                         <td>{user.mail}</td>
                                         <td>{String(user.active)}</td>
                                         <td> {(() => {
-                                            switch (String(user.active)){
-                                                case "true" :  return <Button onClick={(event) => this.selectObject(event)} value={user.username}>Suspenduj</Button>;
-                                                case "false":  return <Button disabled>Suspenduj</Button>;
+                                            switch (String(user.active)) {
+                                                case "true": return <Button onClick={(event) => this.selectObject(event)} value={user.username}>Suspenduj</Button>;
+                                                case "false": return <Button disabled>Suspenduj</Button>;
                                                 default: return <p></p>
-                                             }})()}
+                                            }
+                                        })()}
                                         </td>
                                     </tr>
-                                })                              
+                                })
                             }
                         </tbody>
                     </Table>

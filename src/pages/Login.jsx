@@ -95,27 +95,27 @@ class Login extends Component {
     render() {
         return (
             <div style={{
-                backgroundColor: '#923cb5', backgroundImage: ` linear-gradient(#7732a8, pink)`,
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
                 margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
             }}>
                 <div class="header">Login </div>
                 <Container >
                     <div id="parent">
                         <form id="form_login">
-                            <Label>Username: </Label>
+                            <Label className="label-login">Username: </Label>
                             <Input className="inputGroup" type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}></Input>
-                            <Label>Password: </Label> 
+                            <Label className="label-login">Password: </Label> 
                             <Input className="inputGroup" type="password" name="password" id="password" value={this.state.password} onChange={(event) => this.handleInputChange(event)}></Input>
-                            <Label color="white">Tip korisnika:</Label>
+                            <Label className="label-login">Tip korisnika:</Label>
                             <select className="combo" id="tipKorisnika">
                                 <option>SUPERVIZOR</option>
                                 <option>ADMINISTARTOR</option>
                                 <option>KORISNIK</option>
                             </select>
-                            <p style={{ color: '#923cb5' }}>{this.state.message}</p>
+                            <p style={{ color: '#ffffff' }}>{this.state.message}</p>
                             <br></br>
-                            <Button style={{ backgroundColor: "#923cb5" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
-                            <Link className="btn btn-outline-danger" to="/">Cancel</Link>
+                            <Button style={{ backgroundColor: "#001433", width: "150px" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
+                            <Link className="btn btn-outline-danger" to="/" style={{width:"150px"}}>Cancel</Link>
 
                         </form>
 
