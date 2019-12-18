@@ -39,7 +39,7 @@ class AircompanyData extends Component {
     }
 
     componentWillMount() {
-        this.loadData();
+        this.loadDataAktivni();
     }
 
     cleanData() {
@@ -87,9 +87,9 @@ class AircompanyData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
@@ -246,7 +246,7 @@ class AircompanyData extends Component {
                         <tr>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novu avio kompaniju</Button></td>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal1')}>Izmjeni</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi ispravne avio kompanije:</font></p> </td>
+                            <td align="right"> <p><font color="white">Prikazi sve avio kompanije:</font></p> </td>
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
                     </Table>

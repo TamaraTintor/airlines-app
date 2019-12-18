@@ -38,15 +38,15 @@ class UserData extends Component {
     }
 
     componentWillMount() {
-        this.loadData();
+        this.loadDataAktivni();
     }
 
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
@@ -188,23 +188,22 @@ class UserData extends Component {
                     <Table borderless="true">
                         <thead>
                             <tr><td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button></td>
-                                <td align="right"> <p><font color="white">Prikazi aktivne korisnike:</font></p> </td>
+                                <td align="right"> <p><font color="white">Prikazi sve korisnike:</font></p> </td>
                                 <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                             </tr>
                         </thead>
                     </Table>
                     <Table id="tabela">
                         <thead>
-                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Aktivan</th><th>Suspenduj</th></tr>
+                            <tr><th>ID</th><th>Username</th><th>Email</th><th>Aktivan</th><th>Suspenduj</th></tr>
                         </thead>
                         <tbody>
                             {
                                 users.map((user) => {
                                     return <tr key={user.id}>
                                         <td>{user.id}</td>
-                                        <td className="username">{user.username}</td>
+                                        <td>{user.username}</td>
                                         <td>{user.mail}</td>
-                                        <td>{user.password}</td>
                                         <td>{String(user.active)}</td>
                                         <td> {(() => {
                                             switch (String(user.active)){

@@ -40,7 +40,7 @@ class DestinationData extends Component {
     }
 
     componentWillMount() {
-        this.loadData();
+        this.loadDataAktivni();
     }
 
     cleanData() {
@@ -88,9 +88,9 @@ class DestinationData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
@@ -253,7 +253,7 @@ class DestinationData extends Component {
                     <Table borderless="true">
                         <tr>
                             <td><Button style={{ backgroundColor: "#923cb5" }} onClick={() => this.toggle('showModal')}>Dodaj novu destinaciju</Button></td>
-                            <td align="right"> <p><font color="white">Prikazi aktivne destinacije:</font></p> </td>
+                            <td align="right"> <p><font color="white">Prikazi sve destinacije:</font></p> </td>
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
                     </Table>

@@ -346,7 +346,7 @@ class AdminData extends Component {
                     <div height = "60x">
                     <Table>
                         <thead>
-                            <tr><th>ID</th><th>Username</th><th>Password</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
+                            <tr><th>ID</th><th>Username</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
                         </thead>
                         <tbody>
                             {
@@ -354,7 +354,6 @@ class AdminData extends Component {
                                     return <tr key={admin.id}>
                                         <td>{admin.id}</td>
                                         <td>{admin.username}</td>
-                                        <td>{admin.password}</td>
                                         <td>{String(admin.active)}</td>
                                         <td>{String(admin.airCompany.name)}</td>
                                         <td> {(() => {

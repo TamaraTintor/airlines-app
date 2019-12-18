@@ -75,7 +75,7 @@ class FlightData extends Component {
              this.loadDataZaAdmina(localStorage.getItem("id"));
         } else{
             
-            this.loadData();
+            this.loadDataAktivni();
         }
     }
 
@@ -224,9 +224,9 @@ class FlightData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadDataAktivni();
-        } else {
             this.loadData();
+        } else {
+            this.loadDataAktivni();
         }
     }
 
