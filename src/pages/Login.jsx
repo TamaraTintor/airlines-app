@@ -21,7 +21,7 @@ class Login extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.state = { username: "", password: "", message: "" };
+        this.state = { username: "", password: "", message: ""};
     }
 
     loadSupervisorPage() {
@@ -84,6 +84,7 @@ class Login extends Component {
         if (element.value === 'SUPERVIZOR') {
             this.loadSupervisorPage();
         } else if (element.value === 'ADMINISTARTOR') {
+            localStorage.setItem("admin",this.state.username);
             this.loadAdminPage();
         } else {
             localStorage.setItem('user', this.state.username);

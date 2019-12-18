@@ -14,9 +14,21 @@ class AdminHome extends Component {
                 this.props.history.push('/')
             }
         });
-        this.logOut=this.logOut.bind(this);
-     
-   }
+        this.logOut = this.logOut.bind(this);
+        this.loadAdmina = this.loadAdmina.bind(this);
+        this.state = { admin: "" }
+
+    }
+
+    loadAdmina(ime) {
+        fetch('/api/administrator/' + ime)
+            .then(response => response.json())
+            .then(data => { console.log(data); this.setState({ admin: data }) });
+    }
+    componentWillMount() {
+        this.loadAdmina(localStorage.getItem("admin"));
+
+    }
 
     logOut() {
         fetch('/auth/logout',
@@ -32,20 +44,21 @@ class AdminHome extends Component {
     }
 
     flightPage() {
+        var novi = this.state.admin.airCompany.id;
+        localStorage.setItem("id", novi);
         window.close("/admin");
-        window.open("/flightData","_self");
-       
+        window.open("/flightData", "_self");
+
     }
     destinationPage() {
         window.close("/admin");
-        window.open("/destinationData","_self");
+        window.open("/destinationData", "_self");
     }
     airplanePage() {
         window.close("/admin");
-        window.open("/airplaneData","_self");
+        window.open("/airplaneData", "_self");
     }
 
- 
     render() {
         return (
             <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
@@ -54,7 +67,7 @@ class AdminHome extends Component {
                 <Button className="buttonSupervizor" onClick={() => this.destinationPage()} >Rad sa destinacijama </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.flightPage()} >Rad sa letovima </Button><br></br><br></br>
                 <Button className="buttonSupervizor" onClick={() => this.airplanePage()} >Rad sa avionima </Button><br></br><br></br>
-                <Button style={{ backgroundColor: "#42378F", left: "50px", width: "200px",position: "absolute" }} onClick={this.logOut}>Log out</Button> 
+                <Button style={{ backgroundColor: "#42378F", left: "50px", width: "200px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
             </div>
         );
     };

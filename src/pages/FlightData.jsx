@@ -32,8 +32,9 @@ class FlightData extends Component {
         this.loadJedanAvion = this.loadJedanAvion.bind(this);
         this.loadJednuDestinaciju = this.loadJednuDestinaciju.bind(this);
         this.handleIzmjena = this.handleIzmjena.bind(this);
+        this.loadAdmin=this.loadAdmin.bind(this);
         this.state = {
-            flights: [], brand: "", seats: "", name: "", showModalAviokompanija: false,
+            flights: [], brand: "", seats: "", name: "", showModalAviokompanija: false, admin: "",
             showModalAvion: false, showModalDestinacija: false, showModal: false, message: "",
             flightDate: "", price: "", seatReserved: "", id: "", destination: "", airplane: "", airCompany: "",
             selectedValueAvion: "", selectedValueAviokompanija: "", selectedValueDestinacija: "", showModalIzmjena: false
@@ -52,8 +53,30 @@ class FlightData extends Component {
             .then(data => { console.log(this.state); this.setState({ flights: data }) });
     }
 
+    loadDataZaAdmina(id) {
+        fetch('/api/flight/airCompany/' + id)
+            .then(response => response.json())
+            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+    }
+
+    loadAdmin(ime) {
+        fetch('/api/administrator/' + ime)
+            .then(response => response.json())
+            .then(data => {console.log(data); this.setState({ admin: data }) });
+    }
+
     componentWillMount() {
-        this.loadData();
+       
+        console.log("uslooo");
+        var user = localStorage.getItem("data");
+        console.log(user);
+        if (user === "ADMINISTARTOR") {
+            console.log(localStorage.getItem("id"));
+             this.loadDataZaAdmina(localStorage.getItem("id"));
+        } else{
+            
+            this.loadData();
+        }
     }
 
     cleanData() {
@@ -321,8 +344,8 @@ class FlightData extends Component {
             price: item.price,
             flightDate: item.flightDate,
             airCompany: pomAir,
-            destination:pomDest,
-            airplane:pomAvion
+            destination: pomDest,
+            airplane: pomAvion
         })
     }
 
