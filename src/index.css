@@ -8,10 +8,15 @@ body {
 }
 
 td {
-  color:#ffffff
+  color:#ffffff;
+  text-align: center;
+}
+tr:nth-child(even){
+  background-color: #008B8B;
 }
 th {
-  color:#ffffff
+  color:#ffffff;
+  text-align: center;
 }
 .header{
   font-style: italic;
@@ -30,16 +35,13 @@ th {
   border-color:  #af9fe3;
 
 }
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
+/*
 .label{
   color: rgb(255, 255, 255);
   font-size:20px;
   padding-top: 15px;
   
-}
+}*/
 .form-group{
   width: 40%;
   text-align: left;
@@ -72,4 +74,44 @@ code {
   position: absolute;
   left: 200px;
   top: 400px;
+}
+
+.lijevo{
+  float: left;
+  width: calc( 20% - 30px);
+  padding: 10px;
+  padding-left: 20px;
+  margin: 5px;
+  background-color: teal;
+}
+
+.desno{
+  float: left;
+  width: calc(80% - 20px);
+  padding: 5px;
+  margin: 5px;
+  background-color: teal;
+}
+.sve{
+  background-color: teal;
+  height: 100%;
+}
+.combo, .date{
+  height: 40px;
+  width: 220px;
+  margin: 10px;
+  background-color: honeydew;
+  font-size: 18px;
+
+}
+
+.label{
+  color: white;
+  font-size: 18px;
+  padding-left: 10px;
+}
+
+
+.stranica{
+  background-color: hotpink;
 }

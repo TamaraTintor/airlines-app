@@ -155,7 +155,7 @@ class AdminData extends Component {
     selectObject(event)//da suspenduje objekat
     {
         var putanja = '/api/administrator/' + event.target.value;
-        fetch(putanja,
+        var asd = fetch(putanja,
             {
                 method: 'DELETE',
                 headers:
@@ -343,7 +343,8 @@ class AdminData extends Component {
                             <td align="right"><input type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input></td>
                         </tr>
                     </Table>
-                    <Table >
+                    <div height = "60x">
+                    <Table>
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>Password</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
                         </thead>
@@ -370,6 +371,7 @@ class AdminData extends Component {
                             }
                         </tbody>
                     </Table>
+                    </div>
                 </Container>
             </div>
         );

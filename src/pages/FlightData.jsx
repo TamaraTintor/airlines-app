@@ -461,6 +461,17 @@ class FlightData extends Component {
                                             placeholder="time placeholder"
                                         />
                                     </FormGroup>
+                                    <FormGroup>
+                                        <Label for="exampleDate">Datum:</Label>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                        <Input
+                                            type="datetime-local"
+                                            name="datetime-local"
+                                            id="exampleDateTimeIzmjena"
+                                            placeholder="date placeholder"
+                                            defaultValue={this.state.flightDate}
+                                        />
+                                    </FormGroup>
                                 </Form>
                                 <br></br>
                                 <Form inline>

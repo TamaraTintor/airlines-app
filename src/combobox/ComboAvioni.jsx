@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../index.css';
 
 class ComboAvioni extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class ComboAvioni extends Component {
     render() {
         let airplane = [...this.state.airplane];
         return (
-            <select name="customSearch" className="custom-search-select" onChange={this.handleChange}>
+            <select name="customSearch" className="combo" onChange={this.handleChange}>
                 <option value="" selected disabled hidden>Izaberite avion: </option>
                 {
                     airplane.map((avion) =>                   
