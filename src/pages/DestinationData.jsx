@@ -192,7 +192,7 @@ class DestinationData extends Component {
         console.log(this.state);
         let destinations = [...this.state.destinations];
         return (
-            <div style={{ backgroundColor: '#923cb5', backgroundImage: `linear-gradient(150deg, #000000 30%, #923cb5 70%)`, margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
+            <div style={{ backgroundColor: 'teal', margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
@@ -243,10 +243,9 @@ class DestinationData extends Component {
                 <Container>
                     <Table borderless="true">
                         <tbody>
-                            <tr>
-                                <td><h1 style={{ color: "#923cb5" }}>Destination Data</h1></td>
-                                <td align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></td>
-                            </tr>
+                                     <h1 style={{ color: "white" }}>Destination Data</h1>
+                                <div align="right" valign="middle"><Button style={{ backgroundColor: "#42378F" }} onClick={this.logOut}>Log out</Button></div>
+                            
                         </tbody>
                     </Table>
                 </Container>
@@ -265,7 +264,7 @@ class DestinationData extends Component {
                                style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}
                             }>Suspenduj</th><th style={ (localStorage.getItem('data') !== "ADMINISTARTOR") ? {}:{display:'none'}}>Izmjeni</th></tr>
                         </thead>
-                        <tbody >
+                        <tbody>
                             {
                                 destinations.map((destionation) => {
                                     return <tr key={destionation.id}>

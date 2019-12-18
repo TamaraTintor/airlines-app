@@ -12,11 +12,15 @@ td {
   text-align: center;
 }
 tr:nth-child(even){
-  background-color: #008B8B;
+  background-color: rgb(100, 146, 146);
 }
-th {
+tr{
+  background-color: rgb(151, 163, 163);
+}
+th{
   color:#ffffff;
   text-align: center;
+
 }
 .header{
   font-style: italic;
