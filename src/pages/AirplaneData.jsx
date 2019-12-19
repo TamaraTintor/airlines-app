@@ -135,7 +135,7 @@ class AirplaneData extends Component {
             id: this.state.id,
             brand: document.getElementById("brandIzmjena").value,
             seats: document.getElementById("seatsIzmjena").value,
-            active: this.state.active
+            active: true
         }
         fetch('api/airplane',
             {

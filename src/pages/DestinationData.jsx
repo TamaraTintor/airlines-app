@@ -145,7 +145,7 @@ class DestinationData extends Component {
         let dataToSend = {
             name: document.getElementById("nameIzmjena").value,
             id: this.state.id,
-            active: this.state.active
+            active: true
         }
         fetch('api/destination',
             {
