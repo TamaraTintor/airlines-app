@@ -265,7 +265,7 @@ class AirplaneData extends Component {
                                         <td>{airplane.brand}</td>
                                         <td>{String(airplane.seats)}</td>
                                         <td>{String(airplane.active)}</td>
-                                        <td> {(() => {
+                                        <td style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}> {(() => {
                                             switch (String(airplane.active)) {
                                                 case "true": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)} value={airplane.id}>Suspenduj</Button> : null;
                                                 case "false": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button disabled>Suspenduj</Button> : null;
@@ -274,7 +274,7 @@ class AirplaneData extends Component {
                                         })()}
                                         </td>
 
-                                        <td>
+                                        <td style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}>
                                             {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(airplane)}>Izmjeni</Button> : null}
 
                                         </td>

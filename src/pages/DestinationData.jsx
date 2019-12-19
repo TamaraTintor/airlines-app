@@ -264,7 +264,7 @@ class DestinationData extends Component {
                                         <td>{destionation.id}</td>
                                         <td>{destionation.name}</td>
                                         <td>{String(destionation.active)}</td>
-                                        <td> {(() => {
+                                        <td style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}> {(() => {
                                             switch (String(destionation.active)) {
                                                 case "true": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={(event) => this.selectObject(event)} value={destionation.name}>Suspenduj</Button> : null;
                                                 case "false": return (localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button disabled>Suspenduj</Button> : null;
@@ -273,7 +273,7 @@ class DestinationData extends Component {
                                         })()}
                                         </td>
 
-                                        <td /*style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}*/>
+                                        <td style={(localStorage.getItem('data') !== "ADMINISTARTOR") ? {} : { display: 'none' }}>
                                             {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button onClick={() => this.openModalWithItem(destionation)}>Izmjeni</Button> : null}
 
                                         </td>
