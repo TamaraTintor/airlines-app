@@ -249,7 +249,7 @@ class AirplaneData extends Component {
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve avione:</Label>
                 <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
 
-                <Container>
+                <Container className="scrollit">
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Brand</th><th>Seats</th><th>IsActive</th><th

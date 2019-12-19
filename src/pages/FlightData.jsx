@@ -66,15 +66,11 @@ class FlightData extends Component {
     }
 
     componentWillMount() {
-
-        console.log("uslooo");
         var user = localStorage.getItem("data");
-        console.log(user);
         if (user === "ADMINISTARTOR") {
             console.log(localStorage.getItem("id"));
             this.loadDataZaAdmina(localStorage.getItem("id"));
         } else {
-
             this.loadDataAktivni();
         }
     }
@@ -113,12 +109,24 @@ class FlightData extends Component {
 
     handleSubmit() {
         var uneseniDatum = document.getElementById("exampleDate").value + "T" + document.getElementById("exampleTime").value + ".000+0000";
-        let dataToSend = {
-            flightDate: uneseniDatum,
-            airCompany: this.state.airCompany,
-            airplane: this.state.airplane,
-            destination: this.state.destination,
-            price: this.state.price
+        var dataToSend;
+        if (localStorage.getItem("kompanija") != null) {
+            dataToSend = {
+                flightDate: uneseniDatum,
+                airCompany: JSON.parse(localStorage.getItem("kompanija")),
+                airplane: this.state.airplane,
+                destination: this.state.destination,
+                price: this.state.price
+            }
+        }
+        else {
+            dataToSend = {
+                flightDate: uneseniDatum,
+                airCompany: this.state.airCompany,
+                airplane: this.state.airplane,
+                destination: this.state.destination,
+                price: this.state.price
+            }
         }
         console.log(dataToSend);
         fetch('/api/flight',
@@ -136,11 +144,15 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                if (localStorage.getItem("data") === "ADMINISTARTOR") {
+                    this.loadDataZaAdmina(localStorage.getItem("id"));
+                } else {
+                    this.loadData();
+                } this.cleanData(); this.toggle('showModal');
                 toast.success("Let sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
-                this.setState({ message: response.status + " Greska prilikom dodavanja leta" })
+                this.setState({ message: " Greska prilikom dodavanja leta" })
             }
         });
     }
@@ -224,9 +236,19 @@ class FlightData extends Component {
     handleCheckBox(event) {
         var checkbox = document.getElementById("checkbox_aktivni");
         if (checkbox.checked === true) {
-            this.loadData();
+
+            if (localStorage.getItem("data") === "ADMINISTARTOR") {
+                this.loadDataZaAdmina(localStorage.getItem("id"));
+            } else {
+                this.loadData();
+            }
         } else {
-            this.loadDataAktivni();
+
+            if (localStorage.getItem("data") === "ADMINISTARTOR") {
+                this.loadDataZaAdmina(localStorage.getItem("id"));
+            } else {
+                this.loadDataAktivni();
+            }
         }
     }
 
@@ -286,7 +308,12 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+
+                if (localStorage.getItem("data") === "ADMINISTARTOR") {
+                    this.loadDataZaAdmina(localStorage.getItem("id"));
+                } else {
+                    this.loadData();
+                } this.cleanData();
                 toast.success("Let suspendovan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -297,13 +324,25 @@ class FlightData extends Component {
 
     handleIzmjena(event) {
         var uneseniDatum = document.getElementById("exampleDateIzmjena").value + "T" + document.getElementById("exampleTimeIzmjena").value + ".000+0000";
-        let dataToSend = {
-            flightDate: uneseniDatum,
-            airCompany: this.state.airCompany,
-            airplane: this.state.airplane,
-            destination: this.state.destination,
-            price: this.state.price,
-            id: this.state.id
+        var dataToSend;
+        if (localStorage.getItem("kompanija") != null) {
+            dataToSend = {
+                flightDate: uneseniDatum,
+                airCompany: JSON.parse(localStorage.getItem("kompanija")),
+                airplane: this.state.airplane,
+                destination: this.state.destination,
+                price: this.state.price,
+                id: this.state.id
+            }
+        } else {
+            dataToSend = {
+                flightDate: uneseniDatum,
+                airCompany: this.state.airCompany,
+                airplane: this.state.airplane,
+                destination: this.state.destination,
+                price: this.state.price,
+                id: this.state.id
+            }
         }
         console.log(dataToSend);
         fetch('api/flight',
@@ -320,7 +359,12 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                if (localStorage.getItem("data") === "ADMINISTARTOR") {
+                    this.loadDataZaAdmina(localStorage.getItem("id"));
+                } else {
+                    this.loadData();
+                } this.cleanData();
+                this.toggle('showModalIzmjena');
                 toast.success("Let izmjenjen", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -345,7 +389,8 @@ class FlightData extends Component {
             flightDate: item.flightDate,
             airCompany: pomAir,
             destination: pomDest,
-            airplane: pomAvion
+            airplane: pomAvion,
+            id: item.id
         })
     }
 
@@ -375,7 +420,7 @@ class FlightData extends Component {
                                 <br></br>
                                 <Form inline>
                                     <FormGroup>
-                                        <Label for="exampleDate">Datum:</Label>
+                                        <Label for="exampleDate">Datum: </Label>
                                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                                         <Input
                                             type="date"
@@ -385,7 +430,7 @@ class FlightData extends Component {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="exampleTime">Vrijeme"</Label>
+                                        <Label for="exampleTime">Vrijeme: </Label>
                                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                                         <Input
                                             type="time"
@@ -396,14 +441,15 @@ class FlightData extends Component {
                                     </FormGroup>
                                 </Form>
                                 <br></br>
-                                <Form inline>
+                                {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Form inline>
                                     <ComboAviokompanije name="airCompany" id="airCompany" value={this.state.airCompany} onSelectChange={this.handleSelectChangeAviokompanije} />
                                     <div>
                                         &nbsp;  Izabrali ste aviokompaniju: {this.state.selectedValueAviokompanija}
                                     </div>
-                                </Form>
+                                </Form> : null}
                                 <br></br>
                                 <Form inline>
+
                                     <ComboDestinacije name="destination" id="destination" value={this.state.destination} onSelectChange={this.handleSelectChangeDestinacije} />
                                     <div>
                                         &nbsp; Izabrali ste destinaciju: {this.state.selectedValueDestinacija}
@@ -486,25 +532,16 @@ class FlightData extends Component {
                                             placeholder="time placeholder"
                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Label for="exampleDate">Datum:</Label>
-                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                        <Input
-                                            type="datetime-local"
-                                            name="datetime-local"
-                                            id="exampleDateTimeIzmjena"
-                                            placeholder="date placeholder"
-                                            defaultValue={this.state.flightDate}
-                                        />
-                                    </FormGroup>
+
                                 </Form>
                                 <br></br>
-                                <Form inline>
-                                    <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" defaultValue={this.state.airCompany} onSelectChange={this.handleSelectChangeAviokompanije} />
-                                    <div>
-                                        &nbsp;  Nova aviokompanija je: {this.state.selectedValueAviokompanija}
-                                    </div>
-                                </Form>
+                                {(localStorage.getItem('data') !== "ADMINISTARTOR") ?
+                                    <Form inline>
+                                        <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" defaultValue={this.state.airCompany} onSelectChange={this.handleSelectChangeAviokompanije} />
+                                        <div>
+                                            &nbsp;  Nova aviokompanija je: {this.state.selectedValueAviokompanija}
+                                        </div>
+                                    </Form> : null}
                                 <br></br>
                                 <Form inline>
                                     <ComboDestinacije name="destinationIzmjna" id="destinationIzmjena" defaultValue={this.state.destination} onSelectChange={this.handleSelectChangeDestinacije} />
@@ -588,13 +625,15 @@ class FlightData extends Component {
                 <Button style={{ backgroundColor: "#001433", top: "10px", right: "50px", width: "250px", position: "absolute" }} onClick={this.logOut}>Log out</Button>
 
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novi let</Button>
-                <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAviokompanija')}>Dodaj novu aviokompaniju</Button>
+
+                {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAviokompanija')}>Dodaj novu aviokompaniju</Button>
+                    : null}
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAvion')}>Dodaj novi avion</Button>
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalDestinacija')}>Dodaj novu destinaciju</Button>
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve letove:</Label>
                 <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
 
-                <Container>
+                <Container className="scrollit">
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Datum</th><th>Price</th><th>IsActive</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Suspenduj</th><th>Izmjeni</th></tr>
@@ -606,13 +645,7 @@ class FlightData extends Component {
                                         <td>{flight.id}</td>
                                         <td>{
                                             date.format(new Date(flight.flightDate), 'DD.MM.YYYY HH:mm')
-                                        /*new Intl.DateTimeFormat('en-GB', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: '2-digit',
-                                            hour: '2-digit',
-                                            minute:'2-digit'
-                                        }).format(new Date(flight.flightDate))*/}</td>
+                                        }</td>
                                         <td>{flight.price}</td>
                                         <td>{String(flight.active)}</td>
                                         <td>{flight.seatReserved}</td>

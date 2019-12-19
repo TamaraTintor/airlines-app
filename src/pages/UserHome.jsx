@@ -176,7 +176,7 @@ class UserHome extends Component {
                 <Modal isOpen={this.state.showModal}
                     toggle={() => this.toggle('showModal')}
                     className="bg-transparent modal-xl">
-                    <ModalBody>
+                    <ModalBody className="scrollit">
                         <Table>
                             <thead>
                                 <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>Broj mjesta</th><th>Destinacija</th></tr>
@@ -212,7 +212,7 @@ class UserHome extends Component {
                     <Button className="date" onClick={this.handleSubmit}>Kupi</Button>
                     <Button className="date" id="karte" onClick={this.prikaziKarte}>Prikazi moje karte</Button>
                 </div>
-                <div className="desno">
+                <div className="desno scrollit">
                     <Table>
                         <thead>
                             <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>SeatReserved</th><th>Air Company</th><th>Destinacija</th><th>Avion</th><th>Izaberi kartu</th></tr>

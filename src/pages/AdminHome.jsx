@@ -46,6 +46,7 @@ class AdminHome extends Component {
     flightPage() {
         var novi = this.state.admin.airCompany.id;
         localStorage.setItem("id", novi);
+        localStorage.setItem("kompanija", JSON.stringify(this.state.admin.airCompany));
         window.close("/admin");
         window.open("/flightData", "_self");
 

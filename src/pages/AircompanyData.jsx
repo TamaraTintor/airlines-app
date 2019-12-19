@@ -237,7 +237,7 @@ class AircompanyData extends Component {
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novu avio kompaniju</Button>
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve avio kompanije:</Label>
                 <input style={{width:"50px"}} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
-                <Container>
+                <Container className="scrollit">
                     <Table >
                         <thead>
                             <tr><th>ID</th><th>Name</th><th>IsActive</th><th>Suspenduj</th><th>Izmjeni</th></tr>

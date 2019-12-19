@@ -182,7 +182,7 @@ class UserData extends Component {
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button>
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve korisnike:</Label>
                 <input style={{width:"50px"}} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
-                <Container>
+                <Container className="scrollit">
                     <Table id="tabela">
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>Email</th><th>Aktivan</th><th>Suspenduj</th></tr>

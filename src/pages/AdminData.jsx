@@ -25,7 +25,7 @@ class AdminData extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.loadJednu = this.loadJednu.bind(this);
         this.handleIzmjena = this.handleIzmjena.bind(this);
-        this.state = { administrators: [], showModal: false, message: "", username: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "", showModalIzmjena: false }
+        this.state = { administrators: [], showModal: false, message: "", username: "",passwordIzmjena:"", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "", showModalIzmjena: false }
     }
 
     loadDataAktivni() {
@@ -181,7 +181,8 @@ class AdminData extends Component {
         let dataToSend = {
             username: this.state.username,
             password: this.state.password,
-            airCompany: this.state.airCompany
+            airCompany: this.state.airCompany,
+            active: true
         }
         fetch('api/administrator',
             {
@@ -197,7 +198,7 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalIzmjena');
                 toast.success("Administrator izmjenjen", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -213,7 +214,7 @@ class AdminData extends Component {
         this.setState({
             showModalIzmjena: true,
             username: item.username,
-            password: item.password,
+            password: "",
             airCompany: pom
         })
     }
@@ -309,7 +310,7 @@ class AdminData extends Component {
                                         Password:
                                  </InputGroupAddon>
                                     <Input
-                                        type="text" name="passwordIzmjena" id="passwordIzmjena" defaultValue={this.state.password} onChange={(event) => this.handleInputChange(event)}
+                                        type="text" name="password" id="password" value={this.state.password} onChange={this.handleInputChange}
                                     ></Input>
                                 </InputGroup>
                                 <br></br>
@@ -333,7 +334,7 @@ class AdminData extends Component {
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve administratore:</Label>
                 <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
 
-                <Container>
+                <Container className="scrollit">
                     <Table>
                         <thead>
                             <tr><th>ID</th><th>Username</th><th>IsActive</th><th>Air Company</th><th>Suspenduj</th><th>Izmjeni</th></tr>
