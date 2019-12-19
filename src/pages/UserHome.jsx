@@ -172,7 +172,10 @@ class UserHome extends Component {
                 <Modal isOpen={this.state.showModal}
                     toggle={() => this.toggle('showModal')}
                     className="bg-transparent modal-xl">
-                    <ModalBody className="scrollit">
+                    <ModalBody className="scrollit" style={{
+                backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
+                margin: 0, justifyContent: 'center', alignItems: 'center',
+            }}>
                         <Table>
                             <thead>
                                 <tr><th>Datum Leta</th><th>Vrijeme leta</th><th>Price</th><th>Broj mjesta</th><th>Destinacija</th></tr>

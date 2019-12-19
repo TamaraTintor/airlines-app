@@ -239,7 +239,7 @@ class FlightData extends Component {
             if (localStorage.getItem("data") === "ADMINISTARTOR") {
                 this.loadDataZaAdmina(localStorage.getItem("id"));
             } else {
-                this.loadDataAktivni();
+                this.loadData();
             }
         } else {
 
@@ -307,7 +307,6 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-
                 if (localStorage.getItem("data") === "ADMINISTARTOR") {
                     this.loadDataZaAdmina(localStorage.getItem("id"));
                 } else {
@@ -409,10 +408,10 @@ class FlightData extends Component {
                         <ModalBody>
                             <div>
                                 <InputGroup size="sm">
-                                    <InputGroupAddon addonType="prepend">
+                                    <InputGroupAddon sm={3} addonType="prepend">
                                         Price:
                                  </InputGroupAddon>
-                                    <Input
+                                    <Input width="50px"
                                         type="text" name="price" id="price" value={this.state.price} onChange={this.handleInputChange}
                                     ></Input>
                                 </InputGroup>
@@ -442,24 +441,14 @@ class FlightData extends Component {
                                 <br></br>
                                 {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Form inline>
                                     <ComboAviokompanije name="airCompany" id="airCompany" value={this.state.airCompany} onSelectChange={this.handleSelectChangeAviokompanije} />
-                                    <div>
-                                        &nbsp;  Izabrali ste aviokompaniju: {this.state.selectedValueAviokompanija}
-                                    </div>
                                 </Form> : null}
                                 <br></br>
-                                <Form inline>
-
+                                <Form>
                                     <ComboDestinacije name="destination" id="destination" value={this.state.destination} onSelectChange={this.handleSelectChangeDestinacije} />
-                                    <div>
-                                        &nbsp; Izabrali ste destinaciju: {this.state.selectedValueDestinacija}
-                                    </div>
                                 </Form>
                                 <br></br>
-                                <Form inline>
+                                <Form>
                                     <ComboAvioni name="airplane" id="airplane" value={this.state.airplane} onSelectChange={this.handleSelectChangeAvion} />
-                                    <div>
-                                        &nbsp; Izabrali ste avion: {this.state.selectedValueAvion}
-                                    </div>
                                 </Form>
                                 <br></br>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
@@ -535,25 +524,16 @@ class FlightData extends Component {
                                 </Form>
                                 <br></br>
                                 {(localStorage.getItem('data') !== "ADMINISTARTOR") ?
-                                    <Form inline>
+                                    <Form>
                                         <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" defaultValue={this.state.airCompany} onSelectChange={this.handleSelectChangeAviokompanije} />
-                                        <div>
-                                            &nbsp;  Nova aviokompanija je: {this.state.selectedValueAviokompanija}
-                                        </div>
                                     </Form> : null}
                                 <br></br>
-                                <Form inline>
+                                <Form>
                                     <ComboDestinacije name="destinationIzmjna" id="destinationIzmjena" defaultValue={this.state.destination} onSelectChange={this.handleSelectChangeDestinacije} />
-                                    <div>
-                                        &nbsp; Nova destinacija je: {this.state.selectedValueDestinacija}
-                                    </div>
                                 </Form>
                                 <br></br>
-                                <Form inline>
+                                <Form>
                                     <ComboAvioni name="airplaneIzmjena" id="airplaneIzmjena" defaultValue={this.state.airplane} onSelectChange={this.handleSelectChangeAvion} />
-                                    <div>
-                                        &nbsp; Novi avion je: {this.state.selectedValueAvion}
-                                    </div>
                                 </Form>
                                 <br></br>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
@@ -629,8 +609,9 @@ class FlightData extends Component {
                     : null}
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalAvion')}>Dodaj novi avion</Button>
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModalDestinacija')}>Dodaj novu destinaciju</Button>
-                <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve letove:</Label>
-                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
+                {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve letove:</Label> :null}
+                {(localStorage.getItem('data') !== "ADMINISTARTOR") ? <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input> :null}
+                <br></br><br></br>
 
                 <Container className="scrollit">
                     <Table >

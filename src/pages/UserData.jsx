@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input,Label } from 'reactstrap';
+import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input, Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import '../index.css';
@@ -28,13 +28,13 @@ class UserData extends Component {
     loadDataAktivni() {
         fetch('/api/user/aktivni')
             .then(response => response.json())
-            .then(data => {  this.setState({ users: data }) });
+            .then(data => { this.setState({ users: data }) });
     }
 
     loadData() {
         fetch('/api/user')
             .then(response => response.json())
-            .then(data => {  this.setState({ users: data }) });
+            .then(data => { this.setState({ users: data }) });
     }
 
     componentWillMount() {
@@ -154,7 +154,7 @@ class UserData extends Component {
                                         type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}                                     ></Input>
                                 </InputGroup>
                                 <InputGroup size="sm">
-                                    <InputGroupAddon addonType="prepend">
+                                    <InputGroupAddon sm={3} addonType="prepend">
                                         Email:
                                      </InputGroupAddon>
                                     <Input
@@ -162,7 +162,7 @@ class UserData extends Component {
                                     ></Input>
                                 </InputGroup>
                                 <InputGroup size="sm">
-                                    <InputGroupAddon addonType="prepend">
+                                    <InputGroupAddon sm={3} addonType="prepend">
                                         Password:
                                      </InputGroupAddon>
                                     <Input
@@ -181,7 +181,7 @@ class UserData extends Component {
 
                 <Button className="supervizorButton" style={{ marginLeft: "50px" }} onClick={() => this.toggle('showModal')}>Dodaj novog korisnika</Button>
                 <Label className="label" style={{ marginLeft: "50px" }}>Prikazi sve korisnike:</Label>
-                <input style={{width:"50px"}} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
+                <input style={{ width: "50px" }} type="checkbox" id="checkbox_aktivni" onChange={(event) => this.handleCheckBox(event)}></input><br></br><br></br>
                 <Container className="scrollit">
                     <Table id="tabela">
                         <thead>

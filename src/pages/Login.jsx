@@ -115,7 +115,7 @@ class Login extends Component {
                             <p style={{ color: '#ffffff' }}>{this.state.message}</p>
                             <br></br>
                             <Button style={{ backgroundColor: "#001433", width: "150px" }} onClick={this.handleSubmit}>Log In</Button>{'  '}
-                            <Link className="btn btn-outline-danger" to="/" style={{width:"150px"}}>Cancel</Link>
+                            <Link className="btn btn-outline-danger" style={{border:"1px solid red"}} to="/" style={{width:"150px"}}>Cancel</Link>
 
                         </form>
 

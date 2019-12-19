@@ -249,9 +249,7 @@ class AdminData extends Component {
                                 </InputGroup>
                                 <br></br>
                                 <ComboAviokompanije name="airCompany" id="airCompany" value={this.state.airCompany} onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
-                                <div>
-                                    Izabrali ste aviokompaniju: {this.state.selectedValue}
-                                </div>
+                               
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button className="supervizorButton" onClick={this.handleSubmit}>Dodaj administratora</Button>
@@ -309,9 +307,6 @@ class AdminData extends Component {
                                 </InputGroup>
                                 <br></br>
                                 <ComboAviokompanije name="airCompanyIzmjena" id="airCompanyIzmjena" /*value={this.state.airCompany} /*selected={this.state.airCompany.name}*/ onSelectChange={this.handleSelectChange} />  <br></br> <br></br>
-                                <div>
-                                    Nova aviokompanija: {this.state.selectedValue}
-                                </div>
                                 <p style={{ color: '#923cb5' }}>{this.state.message}</p>
                                 <br></br>
                                 <Button className="supervizorButton" onClick={this.handleIzmjena}>Izmjeni administratora</Button>

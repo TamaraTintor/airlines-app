@@ -46,16 +46,13 @@ class AdminHome extends Component {
         var novi = this.state.admin.airCompany.id;
         localStorage.setItem("id", novi);
         localStorage.setItem("kompanija", JSON.stringify(this.state.admin.airCompany));
-        window.close("/admin");
         window.open("/flightData", "_self");
 
     }
     destinationPage() {
-        window.close("/admin");
         window.open("/destinationData", "_self");
     }
     airplanePage() {
-        window.close("/admin");
         window.open("/airplaneData", "_self");
     }
 

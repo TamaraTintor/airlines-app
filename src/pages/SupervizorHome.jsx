@@ -31,29 +31,23 @@ class SupervizorHome extends Component {
     }
 
     adminPage() {
-        window.close("/supervizor");
         window.open("/adminData","_self");
        
     }
     userPage() {
-        window.close("/supervizor");
         window.open("/userData","_self");
     }
     destinationPage() {
-        window.close("/supervizor");
         window.open("/destinationData","_self");
     }
     aircompanyPage() {
-        window.close("/supervizor");
         window.open("/aircompanyData","_self");
     }
 
     airplanePage() {
-        window.close("/supervizor");
         window.open("/airplaneData","_self");
     }
     flightPage() {
-        window.close("/supervizor");
         window.open("/flightData","_self");
     }
 
