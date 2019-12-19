@@ -44,31 +44,30 @@ class FlightData extends Component {
     loadDataAktivni() {
         fetch('/api/flight/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+            .then(data => {  this.setState({ flights: data }) });
     }
 
     loadData() {
         fetch('/api/flight')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+            .then(data => {this.setState({ flights: data }) });
     }
 
     loadDataZaAdmina(id) {
         fetch('/api/flight/airCompany/' + id)
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+            .then(data => {  this.setState({ flights: data }) });
     }
 
     loadAdmin(ime) {
         fetch('/api/administrator/' + ime)
             .then(response => response.json())
-            .then(data => { console.log(data); this.setState({ admin: data }) });
+            .then(data => { this.setState({ admin: data }) });
     }
 
     componentWillMount() {
         var user = localStorage.getItem("data");
         if (user === "ADMINISTARTOR") {
-            console.log(localStorage.getItem("id"));
             this.loadDataZaAdmina(localStorage.getItem("id"));
         } else {
             this.loadDataAktivni();
@@ -128,7 +127,7 @@ class FlightData extends Component {
                 price: this.state.price
             }
         }
-        console.log(dataToSend);
+     
         fetch('/api/flight',
             {
 
@@ -147,7 +146,7 @@ class FlightData extends Component {
                 if (localStorage.getItem("data") === "ADMINISTARTOR") {
                     this.loadDataZaAdmina(localStorage.getItem("id"));
                 } else {
-                    this.loadData();
+                    this.loadDataAktivni();
                 } this.cleanData(); this.toggle('showModal');
                 toast.success("Let sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
@@ -175,7 +174,7 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalAviokompanija');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalAviokompanija');
                 toast.success("Avio kompanija sacuvana", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: "Greska prilikom dodavanja avio kompanije" }) }
@@ -200,7 +199,7 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalDestinacija');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalDestinacija');
                 toast.success("Destinacija sacuvana", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: "Greska prilikom dodavanja destinacije" }) }
@@ -226,7 +225,7 @@ class FlightData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalAvion');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalAvion');
                 toast.success("Avion sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: "Greska prilikom dodavanja avion" }) }
@@ -240,7 +239,7 @@ class FlightData extends Component {
             if (localStorage.getItem("data") === "ADMINISTARTOR") {
                 this.loadDataZaAdmina(localStorage.getItem("id"));
             } else {
-                this.loadData();
+                this.loadDataAktivni();
             }
         } else {
 
@@ -312,7 +311,7 @@ class FlightData extends Component {
                 if (localStorage.getItem("data") === "ADMINISTARTOR") {
                     this.loadDataZaAdmina(localStorage.getItem("id"));
                 } else {
-                    this.loadData();
+                    this.loadDataAktivni();
                 } this.cleanData();
                 toast.success("Let suspendovan", { position: toast.POSITION_TOP_RIGHT });
             }
@@ -344,7 +343,7 @@ class FlightData extends Component {
                 id: this.state.id
             }
         }
-        console.log(dataToSend);
+     
         fetch('api/flight',
             {
                 method: 'PUT',
@@ -362,7 +361,7 @@ class FlightData extends Component {
                 if (localStorage.getItem("data") === "ADMINISTARTOR") {
                     this.loadDataZaAdmina(localStorage.getItem("id"));
                 } else {
-                    this.loadData();
+                    this.loadDataAktivni();
                 } this.cleanData();
                 this.toggle('showModalIzmjena');
                 toast.success("Let izmjenjen", { position: toast.POSITION_TOP_RIGHT });

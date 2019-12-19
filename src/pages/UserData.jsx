@@ -28,13 +28,13 @@ class UserData extends Component {
     loadDataAktivni() {
         fetch('/api/user/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ users: data }) });
+            .then(data => {  this.setState({ users: data }) });
     }
 
     loadData() {
         fetch('/api/user')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ users: data }) });
+            .then(data => {  this.setState({ users: data }) });
     }
 
     componentWillMount() {
@@ -97,7 +97,7 @@ class UserData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal');
                 toast.success("Korisnik sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: "Greska prilikom dodavanja korisnika" }) }
@@ -121,7 +121,7 @@ class UserData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadDataAktivni();
                 toast.success("Korisnik suspendovan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {

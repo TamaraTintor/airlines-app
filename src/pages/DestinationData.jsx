@@ -30,13 +30,13 @@ class DestinationData extends Component {
     loadDataAktivni() {
         fetch('/api/destination/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ destinations: data }) });
+            .then(data => {  this.setState({ destinations: data }) });
     }
 
     loadData() {
         fetch('/api/destination')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ destinations: data, }) });
+            .then(data => { this.setState({ destinations: data, }) });
     }
 
     componentWillMount() {
@@ -78,7 +78,7 @@ class DestinationData extends Component {
 
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal');
                 toast.success("Destinacija sacuvana", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: response.status + " Greska prilikom dodavanja destinacije." }) }
@@ -131,7 +131,7 @@ class DestinationData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadDataAktivni();
                 toast.success("Destinacija obrisana", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -161,7 +161,7 @@ class DestinationData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalIzmjena');
                 toast.success("Destinacija izmjenjena", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -188,8 +188,7 @@ class DestinationData extends Component {
     }
 
     render() {
-        console.log("RENDER:")
-        console.log(this.state);
+       
         let destinations = [...this.state.destinations];
         return (
             <div style={{
