@@ -29,13 +29,13 @@ class AircompanyData extends Component {
     loadDataAktivni() {
         fetch('/api/airCompany/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompanies: data }) });
+            .then(data => { this.setState({ airCompanies: data }) });
     }
 
     loadData() {
         fetch('/api/airCompany')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airCompanies: data, }) });
+            .then(data => { this.setState({ airCompanies: data, }) });
     }
 
     componentWillMount() {
@@ -77,10 +77,10 @@ class AircompanyData extends Component {
 
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal');
                 toast.success("Avio kompanija sacuvana", { position: toast.POSITION_TOP_RIGHT });
             }
-            else { this.setState({ message: response.status + " Greska prilikom dodavanja avio kompanije." }) }
+            else { this.setState({ message: " Greska prilikom dodavanja avio kompanije." }) }
         });
     }
 
@@ -111,7 +111,8 @@ class AircompanyData extends Component {
             }
         ).catch(() => this.props.history.push('/'));
     }
-    selectObject(event)//da suspenduje objekat
+
+    selectObject(event)
     {
         var putanja = '/api/airCompany/' + event.target.value;
         fetch(putanja,
@@ -127,7 +128,7 @@ class AircompanyData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadDataAktivni();
                 toast.success("Avio kompanija obrisana", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -156,7 +157,7 @@ class AircompanyData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalIzmjena');
                 toast.success("Avio kompanija izmjenjena", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -172,14 +173,10 @@ class AircompanyData extends Component {
             id: item.id,
             name: item.name,
             active: item.active
-        })
-       
+        })   
     }
 
-
     render() {
-        console.log("RENDER:")
-        console.log(this.state);
         let airCompanies = [...this.state.airCompanies];
         return (
             <div style={{

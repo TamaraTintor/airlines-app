@@ -27,13 +27,13 @@ class AirplaneData extends Component {
     loadDataAktivni() {
         fetch('/api/airplane/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airplanes: data }) });
+            .then(data => { this.setState({ airplanes: data }) });
     }
 
     loadData() {
         fetch('/api/airplane')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ airplanes: data, }) });
+            .then(data => { this.setState({ airplanes: data, }) });
     }
 
     componentWillMount() {
@@ -75,10 +75,10 @@ class AirplaneData extends Component {
 
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal');
                 toast.success("Avion sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
-            else { this.setState({ message: response.status + " Greska prilikom dodavanja aviona." }) }
+            else { this.setState({ message: " Greska prilikom dodavanja aviona." }) }
         });
     }
 
@@ -104,7 +104,7 @@ class AirplaneData extends Component {
         ).catch(() => this.props.history.push('/'));
     }
 
-    selectObject(event)//da suspenduje objekat
+    selectObject(event)
     {
         var putanja = '/api/airplane/' + event.target.value;
         fetch(putanja,
@@ -120,7 +120,7 @@ class AirplaneData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadDataAktivni();
                 toast.success("Avion obrisan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -151,7 +151,7 @@ class AirplaneData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModalIzmjena');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModalIzmjena');
                 toast.success("Avion izmjenjen", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -171,8 +171,6 @@ class AirplaneData extends Component {
     }
 
     render() {
-        console.log("RENDER:")
-        console.log(this.state);
         let airplanes = [...this.state.airplanes];
         return (
             <div style={{

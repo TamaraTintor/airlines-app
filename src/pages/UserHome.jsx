@@ -36,13 +36,13 @@ class UserHome extends Component {
     loadData() {
         fetch('/api/flight/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+            .then(data => { this.setState({ flights: data }) });
     }
 
     loadLetovePoDestinaciji(ime) {
         fetch('/api/flight/destination/' + ime)
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ flights: data }) });
+            .then(data => { this.setState({ flights: data }) });
     }
 
     componentWillMount() {
@@ -53,7 +53,7 @@ class UserHome extends Component {
     loadKupljeneKarte(username) {
         fetch('/api/ticket/' + username)
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ tickets: data }) });
+            .then(data => { this.setState({ tickets: data }) });
     }
 
     loadJednuDestinaciju(ime) {
@@ -118,7 +118,7 @@ class UserHome extends Component {
                 toast.success("Karta je kupljena", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
-                this.setState({ message: response.status + " Greska prilikom kupovine karte." })
+                this.setState({ message:" Greska prilikom kupovine karte." })
             }
         });
     }
@@ -142,12 +142,8 @@ class UserHome extends Component {
 
     resetujPodatke() {
         this.loadData();
-        /*  var combo = document.getElementById("destination");
-          combo.selected="Izaberite destinaciju:"*/
         var polje = document.getElementById("number");
         polje.value = "";
-
-
     }
 
     logOut() {

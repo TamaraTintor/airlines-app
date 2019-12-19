@@ -23,11 +23,10 @@ class AdminHome extends Component {
     loadAdmina(ime) {
         fetch('/api/administrator/' + ime)
             .then(response => response.json())
-            .then(data => { console.log(data); this.setState({ admin: data }) });
+            .then(data => { this.setState({ admin: data }) });
     }
     componentWillMount() {
         this.loadAdmina(localStorage.getItem("admin"));
-
     }
 
     logOut() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, InputGroup, InputGroupAddon, Container, Input, Label } from 'reactstrap';
+import { Button, Container, Input, Label } from 'reactstrap';
 import { checkIfLogged } from '../common.js'
 
 class Login extends Component {
@@ -56,7 +56,7 @@ class Login extends Component {
             if (response.status === 200) {
                 this.props.history.push('/admin')
             } else {
-                this.setState({ message: "Invalid credentials" })
+                this.setState({ message: "Nisu ispravni username i password." })
             }
         });
     }
@@ -72,7 +72,7 @@ class Login extends Component {
                 },
                 body: JSON.stringify(this.state),
             }
-        ).then(response => { if (response.status === 200) { this.props.history.push('/user') } else { this.setState({ message: "Invalid credentials" }) } });
+        ).then(response => { if (response.status === 200) { this.props.history.push('/user') } else { this.setState({ message: "Nisu ispravni username i password." }) } });
     }
 
 

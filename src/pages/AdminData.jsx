@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import { Button, Modal, ModalBody, InputGroup, InputGroupAddon, Container, Table, Input, Label } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,19 +23,19 @@ class AdminData extends Component {
         this.loadDataAktivni = this.loadDataAktivni.bind(this);
         this.loadJednu = this.loadJednu.bind(this);
         this.handleIzmjena = this.handleIzmjena.bind(this);
-        this.state = { administrators: [], showModal: false, message: "", username: "",passwordIzmjena:"", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "", showModalIzmjena: false }
+        this.state = { administrators: [], showModal: false, message: "", username: "", passwordIzmjena: "", password: "", airCompany: "", name: "", showModal1: false, selectedValue: "", showModalIzmjena: false }
     }
 
     loadDataAktivni() {
         fetch('/api/administrator/aktivni')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ administrators: data }) });
+            .then(data => { this.setState({ administrators: data }) });
     }
 
     loadData() {
         fetch('/api/administrator')
             .then(response => response.json())
-            .then(data => { console.log(this.state); this.setState({ administrators: data }) });
+            .then(data => { this.setState({ administrators: data }) });
     }
 
     componentWillMount() {
@@ -61,9 +59,8 @@ class AdminData extends Component {
     loadJednu(ime) {
         fetch('/api/airCompany/' + ime)
             .then(response => response.json())
-            .then(data => { console.log("Avioooo  " + ime); this.setState({ airCompany: data }) })
+            .then(data => { this.setState({ airCompany: data }) })
     }
-
 
     handleSubmit() {
 
@@ -87,11 +84,11 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal');
                 toast.success("Administrator sacuvan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
-                this.setState({ message: response.status + " Greska prilikom dodavanja administratora" })
+                this.setState({ message: " Greska prilikom dodavanja administratora" })
             }
         });
     }
@@ -114,7 +111,7 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData(); this.cleanData(); this.toggle('showModal1');
+                this.loadDataAktivni(); this.cleanData(); this.toggle('showModal1');
                 toast.success("Aviokompanija sacuvana", { position: toast.POSITION_TOP_RIGHT });
             }
             else { this.setState({ message: "Greska prilikom dodavanja aviokompanije" }) }
@@ -152,8 +149,7 @@ class AdminData extends Component {
         ).catch(() => this.props.history.push('/'));
     }
 
-    selectObject(event)//da suspenduje objekat
-    {
+    selectObject(event) {
         var putanja = '/api/administrator/' + event.target.value;
         var asd = fetch(putanja,
             {
@@ -168,7 +164,7 @@ class AdminData extends Component {
             }
         ).then(response => {
             if (response.status === 202) {
-                this.loadData();
+                this.loadDataAktivni();
                 toast.success("Administrator suspendovan", { position: toast.POSITION_TOP_RIGHT });
             }
             else {
@@ -221,14 +217,12 @@ class AdminData extends Component {
 
 
     render() {
-        console.log("RENDER:")
-        console.log(this.state);
         let administrators = [...this.state.administrators];
         return (
             <div style={{
                 backgroundColor: '#001f4d', backgroundImage: ` linear-gradient(#001f4d, gray)`,
                 margin: 0, height: '100vh', width: '100%', justifyContent: 'center', alignItems: 'center',
-            }}><ToastContainer autoClose={4000} />
+            }}><ToastContainer autoClose={3000} />
                 <Container>
                     <Modal
                         isOpen={this.state.showModal}
@@ -361,7 +355,6 @@ class AdminData extends Component {
                             }
                         </tbody>
                     </Table>
-
                 </Container>
             </div>
         );
